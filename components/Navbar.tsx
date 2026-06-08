@@ -16,6 +16,10 @@ export default function Navbar() {
           Products
         </Link>
 
+        <Link className="hover:text-cyan-400 transition" href="/cart">
+          Cart
+        </Link>
+
         <Link className="hover:text-cyan-400 transition" href="/orders">
           Orders
         </Link>
