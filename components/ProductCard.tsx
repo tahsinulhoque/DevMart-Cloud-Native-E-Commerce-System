@@ -8,8 +8,8 @@ export default function ProductCard({
   price,
 }: ProductProps) {
   return (
-    <div className="border border-gray-800 rounded-xl p-6 hover:border-white transition duration-300">
-      <div className="h-40 bg-gray-900 rounded-lg mb-4"></div>
+    <div className="border border-gray-800 rounded-xl p-6 bg-gray-950 hover:border-cyan-500 hover:-translate-y-1 transition-all duration-300">
+      <div className="h-40 bg-gradient-to-br from-cyan-900 to-blue-950 rounded-lg mb-4"></div>
 
       <h3 className="text-xl font-semibold mb-2">
         {name}
@@ -23,7 +23,7 @@ export default function ProductCard({
         ${price}
       </p>
 
-      <button className="w-full border rounded-lg py-2 hover:bg-white hover:text-black transition">
+      <button className="w-full rounded-lg py-2 bg-cyan-500 text-black font-semibold hover:bg-cyan-400 transition">
         View Details
       </button>
     </div>

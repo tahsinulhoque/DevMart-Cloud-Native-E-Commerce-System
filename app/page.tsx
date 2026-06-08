@@ -5,23 +5,23 @@ export default function HomePage() {
   return (
     <main>
       {/* Hero Section */}
-      <section className="px-10 py-20">
-        <div className="max-w-4xl">
-          <h1 className="text-6xl font-bold mb-6">
+      <section className="px-10 py-24">
+        <div className="max-w-5xl">
+          <h1 className="text-7xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
             Cloud-Native E-Commerce Platform
           </h1>
 
-          <p className="text-xl text-gray-400 mb-8">
-            Built with Next.js and designed for Kubernetes-based
-            microservices architecture.
+          <p className="text-xl text-gray-300 mb-8 max-w-3xl">
+            Built with Next.js, Docker, Kubernetes and modern
+            cloud-native architecture.
           </p>
 
           <div className="flex gap-4">
-            <button className="bg-white text-black px-6 py-3 rounded-lg font-semibold">
+            <button className="bg-cyan-500 text-black px-6 py-3 rounded-lg font-semibold hover:bg-cyan-400 transition">
               Shop Now
             </button>
 
-            <button className="border px-6 py-3 rounded-lg hover:bg-white hover:text-black transition">
+            <button className="border border-gray-700 px-6 py-3 rounded-lg hover:border-cyan-500 hover:text-cyan-400 transition">
               Explore Products
             </button>
           </div>
@@ -52,19 +52,19 @@ export default function HomePage() {
         </h2>
 
         <div className="grid grid-cols-4 gap-6">
-          <div className="border rounded-xl p-8 text-center hover:border-white transition cursor-pointer">
+          <div className="rounded-xl bg-gray-950 border border-gray-800 p-8 text-center hover:border-cyan-500 hover:-translate-y-1 transition">
             Electronics
           </div>
 
-          <div className="border rounded-xl p-8 text-center hover:border-white transition cursor-pointer">
+          <div className="rounded-xl bg-gray-950 border border-gray-800 p-8 text-center hover:border-cyan-500 hover:-translate-y-1 transition">
             Laptops
           </div>
 
-          <div className="border rounded-xl p-8 text-center hover:border-white transition cursor-pointer">
+          <div className="rounded-xl bg-gray-950 border border-gray-800 p-8 text-center hover:border-cyan-500 hover:-translate-y-1 transition">
             Gaming
           </div>
 
-          <div className="border rounded-xl p-8 text-center hover:border-white transition cursor-pointer">
+          <div className="rounded-xl bg-gray-950 border border-gray-800 p-8 text-center hover:border-cyan-500 hover:-translate-y-1 transition">
             Accessories
           </div>
         </div>
