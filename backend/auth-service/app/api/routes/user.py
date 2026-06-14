@@ -22,7 +22,7 @@ def register(user: UserCreate):
     try:
         return create_user(
             db,
-            user.username,
+            user.name,
             user.email,
             user.password
         )

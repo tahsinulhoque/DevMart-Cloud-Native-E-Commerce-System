@@ -6,11 +6,18 @@ app = FastAPI(
     version="1.0.0"
 )
 
+app.include_router(
+    user_router,
+    prefix="/api/users",
+    tags=["Users"]
+)
+
 @app.get("/")
 def root():
     return {
         "message": "DevMart Auth Service Running"
     }
+
 
 @app.get("/health")
 def health():
