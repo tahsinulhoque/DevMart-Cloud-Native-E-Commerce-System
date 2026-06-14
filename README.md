@@ -1,36 +1,199 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 DevMart Cloud-Native E-Commerce Platform
 
-## Getting Started
+A cloud-native e-commerce platform built to gain hands-on experience with modern backend development, DevOps practices, containerization, and cloud-native architecture.
 
-First, run the development server:
+The goal of this project is not only to build an e-commerce application, but also to understand how modern applications are developed, containerized, deployed, monitored, and managed in production environments.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 📌 Project Goals
+
+This project is being developed to explore:
+
+* Backend Development with FastAPI
+* MySQL Database Integration
+* Service-Oriented Architecture
+* Docker Containerization
+* Kubernetes Deployment
+* CI/CD Automation
+* Cloud Deployment on AWS
+* Monitoring and Observability
+
+---
+
+## ✅ Current Progress
+
+### Frontend
+
+* Next.js Application Setup
+* Responsive UI Design
+* Home Page
+* Products Page
+* Orders Page
+* Profile Page
+* Login Page
+* Register Page
+* Reusable Components
+* Navigation System
+
+### Backend
+
+* FastAPI Auth Service Setup
+* Backend Service Structure Initialized
+* Prepared Service Separation for:
+
+  * Auth Service
+  * Product Service
+  * Order Service
+
+### Database
+
+* MySQL Running in Docker
+* SQLAlchemy Integration
+* User Model Created
+* Users Table Successfully Generated
+
+### DevOps
+
+* Dockerized Database Environment
+* Git-Based Development Workflow
+* Monorepo Project Structure
+
+---
+
+## 🏗️ Project Structure
+
+```text
+devmart-platform/
+│
+├── frontend/
+│   ├── app/
+│   ├── components/
+│   ├── public/
+│   └── ...
+│
+├── backend/
+│   ├── auth-service/
+│   │   ├── app/
+│   │   ├── tests/
+│   │   ├── requirements.txt
+│   │   └── Dockerfile
+│   │
+│   ├── product-service/
+│   │
+│   └── order-service/
+│
+├── docker-compose.yml
+│
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Technology Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Frontend
 
-## Learn More
+* Next.js
+* TypeScript
+* Tailwind CSS
 
-To learn more about Next.js, take a look at the following resources:
+### Backend
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* FastAPI
+* SQLAlchemy
+* Pydantic
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Database
 
-## Deploy on Vercel
+* MySQL
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### DevOps
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* Docker
+
+---
+
+## 🐳 Docker Setup
+
+Start MySQL Container:
+
+```bash
+docker compose up -d
+```
+
+Check Running Containers:
+
+```bash
+docker ps
+```
+
+---
+
+## 🔄 Current Development Phase
+
+The project is currently focused on implementing authentication features:
+
+* User Registration API
+* Login API
+* Password Hashing
+* JWT Authentication
+
+---
+
+## 🎯 Upcoming Milestones
+
+### Backend
+
+* Registration Endpoint
+* Login Endpoint
+* JWT Authentication
+* Product Service Development
+* Order Service Development
+
+### DevOps
+
+* Docker Compose for All Services
+* GitHub Actions CI/CD Pipeline
+* Kubernetes Deployments
+* Kubernetes Services
+* Ingress Configuration
+
+### Cloud
+
+* AWS Deployment
+* Monitoring with Prometheus
+* Grafana Dashboards
+
+---
+
+## 📚 Learning Objectives
+
+This project is being built to gain practical experience with:
+
+* Backend Development
+* Database Design
+* API Development
+* Containerization
+* Infrastructure Automation
+* CI/CD Workflows
+* Cloud-Native Application Architecture
+
+---
+
+## 📈 Project Status
+
+🚧 Active Development
+
+The project is currently under active development and new features are being added continuously.
+
+---
+
+## 👨‍💻 Author
+
+**Md. Tahsinul Hoque Siddiki**
+
+Aspiring DevOps & Cloud Engineer
+
+GitHub:
+https://github.com/tahsinulhoque
