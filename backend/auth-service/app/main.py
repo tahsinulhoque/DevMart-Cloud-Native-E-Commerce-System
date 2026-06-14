@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from app.api.routes.user import router as user_router
 
 app = FastAPI(
     title="DevMart Auth Service",
