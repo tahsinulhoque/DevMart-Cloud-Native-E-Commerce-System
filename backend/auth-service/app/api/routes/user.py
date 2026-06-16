@@ -4,7 +4,8 @@ from sqlalchemy.orm import Session
 from app.database.db import SessionLocal
 from app.schemas.user import (
     UserCreate,
-    UserResponse
+    UserResponse,
+    UserLogin
 )
 from app.services.user_service import create_user
 
@@ -29,3 +30,11 @@ def register(user: UserCreate):
 
     finally:
         db.close()
+
+
+@router.post("/login")
+def login(user: UserLogin):
+
+    return {
+        "message": "Login endpoint working"
+    }
