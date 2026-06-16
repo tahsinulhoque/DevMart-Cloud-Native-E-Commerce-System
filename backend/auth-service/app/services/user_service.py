@@ -6,15 +6,15 @@ from app.utils.security import hash_password
 
 def create_user(
     db: Session,
-    username: str,
+    name: str,
     email: str,
     password: str
 ):
 
     user = User(
-        username=username,
+        name=name,
         email=email,
-        hashed_password=hash_password(password)
+        password=hash_password(password)
     )
 
     db.add(user)
