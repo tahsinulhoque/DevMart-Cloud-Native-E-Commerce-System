@@ -6,13 +6,12 @@ from app.utils.security import hash_password
 
 def create_user(
     db: Session,
-    name: str,
+    full_name: str,
     email: str,
     password: str
 ):
-
     user = User(
-        name=name,
+        full_name=full_name,
         email=email,
         password=hash_password(password)
     )
