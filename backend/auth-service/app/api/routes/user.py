@@ -1,13 +1,22 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database.db import SessionLocal
+
 from app.schemas.user import (
     UserCreate,
     UserResponse,
-    UserLogin
+    UserLogin,
+    Token
 )
-from app.services.user_service import create_user
+
+from app.services.user_service import (
+    create_user,
+    get_user_by_email
+)
+
+from app.utils.security import verify_password
+from app.utils.jwt import create_access_token
 
 router = APIRouter()
 
@@ -32,9 +41,46 @@ def register(user: UserCreate):
         db.close()
 
 
-@router.post("/login")
+@router.post(
+    "/login",
+    response_model=Token
+)
 def login(user: UserLogin):
 
-    return {
-        "message": "Login endpoint working"
-    }
+    db: Session = SessionLocal()
+
+    try:
+
+        db_user = get_user_by_email(
+            db,
+            user.email
+        )
+
+        if not db_user:
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid credentials"
+            )
+
+        if not verify_password(
+            user.password,
+            db_user.password
+        ):
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid credentials"
+            )
+
+        access_token = create_access_token(
+            {
+                "sub": db_user.email
+            }
+        )
+
+        return {
+            "access_token": access_token,
+            "token_type": "bearer"
+        }
+
+    finally:
+        db.close()
