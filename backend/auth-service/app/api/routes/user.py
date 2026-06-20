@@ -87,10 +87,11 @@ def login(user: UserLogin):
         db.close()
 
 
-@router.get("/me")
+@router.get(
+    "/me",
+    response_model=UserResponse
+)
 def get_me(
-    current_user: str = Depends(get_current_user)
+    current_user = Depends(get_current_user)
 ):
-    return {
-        "email": current_user
-    }
+    return current_user
