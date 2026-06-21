@@ -1,9 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from dotenv import load_dotenv
 import os
-
-load_dotenv()
 
 MYSQL_HOST = os.getenv("MYSQL_HOST")
 MYSQL_PORT = os.getenv("MYSQL_PORT")
