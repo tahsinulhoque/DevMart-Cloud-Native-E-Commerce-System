@@ -10,6 +10,17 @@ def create_user(
     email: str,
     password: str
 ):
+
+    existing_user = get_user_by_email(
+        db,
+        email
+    )
+
+    if existing_user:
+        raise ValueError(
+            "Email already registered"
+        )
+
     user = User(
         full_name=full_name,
         email=email,
@@ -21,6 +32,7 @@ def create_user(
     db.refresh(user)
 
     return user
+
 
 def get_user_by_email(
     db: Session,
