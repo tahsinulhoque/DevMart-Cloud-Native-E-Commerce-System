@@ -31,11 +31,19 @@ def register(user: UserCreate):
     db: Session = SessionLocal()
 
     try:
+
         return create_user(
             db,
             user.full_name,
             user.email,
             user.password
+        )
+
+    except ValueError as e:
+
+        raise HTTPException(
+            status_code=400,
+            detail=str(e)
         )
 
     finally:
@@ -92,6 +100,6 @@ def login(user: UserLogin):
     response_model=UserResponse
 )
 def get_me(
-    current_user = Depends(get_current_user)
+    current_user=Depends(get_current_user)
 ):
     return current_user
