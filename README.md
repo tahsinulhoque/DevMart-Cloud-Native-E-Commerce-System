@@ -568,5 +568,4 @@ During development, the following concepts were explored:
 Aspiring DevOps & Cloud Engineer
 
 GitHub:
-
 https://github.com/tahsinulhoque
