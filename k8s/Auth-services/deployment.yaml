@@ -24,3 +24,52 @@ spec:
 
           ports:
             - containerPort: 8000
+
+          env:
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-config
+                  key: MYSQL_HOST
+
+            - name: MYSQL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-config
+                  key: MYSQL_PORT
+
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-config
+                  key: MYSQL_DATABASE
+
+            - name: MYSQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-config
+                  key: MYSQL_USER
+
+            - name: ALGORITHM
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-config
+                  key: ALGORITHM
+
+            - name: ACCESS_TOKEN_EXPIRE_MINUTES
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-config
+                  key: ACCESS_TOKEN_EXPIRE_MINUTES
+
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: auth-secret
+                  key: MYSQL_PASSWORD
+
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: auth-secret
+                  key: SECRET_KEY
