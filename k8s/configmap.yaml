@@ -3,6 +3,7 @@ kind: ConfigMap
 
 metadata:
   name: auth-config
+  namespace: devmart
 
 data:
   MYSQL_HOST: mysql

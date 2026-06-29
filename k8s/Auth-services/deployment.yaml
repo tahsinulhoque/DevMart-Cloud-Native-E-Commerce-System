@@ -3,6 +3,7 @@ kind: Deployment
 
 metadata:
   name: auth-deployment
+  namespace: devmart
 
 spec:
   replicas: 1
