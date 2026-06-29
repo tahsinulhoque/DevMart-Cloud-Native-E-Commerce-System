@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: devmart-ingress
+  namespace: devmart
+
+spec:
+  ingressClassName: nginx
+
+  rules:
+    - host: devmart.local
+
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+
+            backend:
+              service:
+                name: auth-service
+
+                port:
+                  number: 8000
