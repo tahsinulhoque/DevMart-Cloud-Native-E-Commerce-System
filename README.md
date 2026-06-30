@@ -72,7 +72,6 @@ As the project evolves, additional microservices—including Product Service, Or
 # 🎯 Project Goals
 
 The primary objective of this project is to gain practical experience with production-grade backend and DevOps technologies.
-
 This project focuses on learning:
 
 * FastAPI Backend Development
@@ -95,62 +94,46 @@ This project focuses on learning:
 * Monitoring & Observability
 
 ---
+# 🛠️ Tech Stack
 
-# 📌 Current Development Status
-
-## ✅ Completed
-
-### Frontend
-
-* Next.js Project Setup
-* App Router Structure
-* Responsive UI
-* Home Page
-* Products Page
-* Cart Page
-* Orders Page
-* Profile Page
-* Login Page
-* Register Page
-
+## Frontend
+- Next.js
+- TypeScript
+- Tailwind CSS
 ---
 
-### Backend
-
-## Auth Service
-
-Completed:
-
-* User Registration
-* User Login
-* JWT Authentication
-* Password Hashing (bcrypt)
-* Protected Routes
-* Duplicate Email Validation
-* SQLAlchemy Integration
-* MySQL Integration
-
+## Backend
+- FastAPI
+- Python
+- SQLAlchemy
+- Pydantic
+- JWT
+- bcrypt
 ---
 
-### DevOps
-
-Completed:
-
-* Dockerized Auth Service
-* Dockerized MySQL
-* Docker Compose
-* Multi-container Networking
-* Environment Variables
-* Kubernetes Deployment
-* Kubernetes Service
-* ConfigMap
-* Secret
-* Persistent Volume Claim (PVC)
-* Namespace
-* NGINX Ingress
-* Local Domain Routing (devmart.local)
-
+## Database
+- MySQL
 ---
+
+## DevOps & Cloud
+- Git & GitHub
+- Docker & Docker Compose
+- Kubernetes (Kind,kubectl)
+- NGINX Ingress Controller
+- GitHub Actions *(Planned)*
+- AWS *(Planned)*
+  - Amazon EC2
+  - Amazon ECR
+  - Amazon EKS
+- Prometheus *(Planned)*
+- Grafana *(Planned)*
+---
+
+## Development Tools
+- Visual Studio Code
+- Postman
+- Swagger UI
+
 
 # 🚧 Upcoming Services
 
