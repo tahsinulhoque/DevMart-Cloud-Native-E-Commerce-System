@@ -283,3 +283,71 @@ Detailed documentation for each component is available in the `docs/` directory.
 | [Architecture](docs/architecture.md) | Project architecture, request flow, and infrastructure diagrams. |
 | [Troubleshooting](docs/troubleshooting.md) | Common issues, debugging steps, and solutions encountered during development. |
 
+# 🗺️ Roadmap
+
+## ✅ Phase 1 – Project Foundation
+- [x] Initialize Monorepo Project Structure
+- [x] Set Up Next.js Frontend
+- [x] Set Up FastAPI Backend
+- [x] Configure MySQL Database
+- [x] Implement Authentication Service
+- [x] Dockerize Auth Service
+- [x] Configure Docker Compose
+- [x] Deploy Auth Service on Kubernetes
+- [x] Configure ConfigMaps & Secrets
+- [x] Configure Persistent Storage (PVC)
+- [x] Expose Service using NGINX Ingress
+
+---
+
+## 🚧 Phase 2 – Core Microservices
+- [ ] Product Service
+- [ ] Order Service
+- [ ] Inventory Service
+- [ ] API Gateway
+- [ ] Inter-Service Communication
+---
+
+## 🚧 Phase 3 – Frontend Integration
+- [ ] Connect Frontend with Backend APIs
+- [ ] Product Management
+- [ ] Shopping Cart
+- [ ] Order Management
+- [ ] User Profile
+- [ ] Protected Client Routes
+---
+
+## 🚧 Phase 4 – DevOps & Automation
+- [ ] Multi-Service Kubernetes Deployment
+- [ ] GitHub Actions CI/CD Pipeline
+- [ ] Automated Docker Image Build
+- [ ] Automated Kubernetes Deployment
+- [ ] Environment-Based Configuration
+- [ ] Kubernetes Health Checks
+---
+
+## 🚧 Phase 5 – Cloud Deployment
+- [ ] Deploy to AWS
+- [ ] Push Images to Amazon ECR
+- [ ] Deploy on Amazon EKS
+- [ ] Configure Load Balancer
+- [ ] Configure HTTPS
+- [ ] Configure Domain Name
+---
+
+## 🚧 Phase 6 – Monitoring & Observability
+- [ ] Prometheus Monitoring
+- [ ] Grafana Dashboards
+- [ ] Application Metrics
+- [ ] Kubernetes Monitoring
+- [ ] Log Collection
+- [ ] Alerting
+---
+
+## 🚧 Phase 7 – Production Readiness
+- [ ] Horizontal Pod Autoscaling (HPA)
+- [ ] Resource Limits & Requests
+- [ ] Rolling Updates
+- [ ] Liveness & Readiness Probes
+- [ ] Security Hardening
+- [ ] Production Deployment
