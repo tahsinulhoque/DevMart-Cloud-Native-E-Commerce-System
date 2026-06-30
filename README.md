@@ -351,3 +351,17 @@ Detailed documentation for each component is available in the `docs/` directory.
 - [ ] Liveness & Readiness Probes
 - [ ] Security Hardening
 - [ ] Production Deployment
+
+# 👨‍💻 Author
+
+**Md. Tahsinul Hoque Siddiki**
+
+Aspiring DevOps & Cloud Engineer
+
+- GitHub: https://github.com/tahsinulhoque
+- LinkedIn: https://www.linkedin.com/in/tahsinulhoque/
+- Email: tahsinulhoquesiddiki@gmail.com
+
+---
+
+⭐ If you found this project helpful, consider giving it a star on GitHub.
