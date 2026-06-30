@@ -1,198 +1,253 @@
 # 🚀 DevMart Cloud-Native E-Commerce Platform
 
-A cloud-native e-commerce platform built to gain hands-on experience with modern Backend Development, DevOps, Containerization, Microservices, Kubernetes, CI/CD, and Cloud Infrastructure.
+DevMart is a cloud-native microservices-based e-commerce platform built to gain hands-on experience with modern backend development, DevOps, containerization, Kubernetes, CI/CD, and cloud infrastructure.
 
-The goal of this project is not only to build an e-commerce application but also to understand how production-grade systems are designed, containerized, deployed, monitored, and scaled.
+The project is designed to simulate a production-ready environment by developing independent microservices, containerizing applications with Docker, orchestrating workloads using Kubernetes, and following cloud-native best practices for scalability, maintainability, and reliability.
+
+Currently, the platform includes a fully functional Authentication Service built with FastAPI, featuring JWT-based authentication, secure password hashing (bcrypt), MySQL integration, Docker containerization, Docker Compose orchestration, and Kubernetes deployment using ConfigMaps, Secrets, Persistent Volume Claims (PVC), Services, Namespaces, and NGINX Ingress.
+
+As the project evolves, additional microservices—including Product Service, Order Service, API Gateway, and other cloud-native components—will be integrated alongside CI/CD pipelines, monitoring, and AWS deployment to reflect real-world software engineering and DevOps workflows.
+
+> **Current Status:** 🚧 Active Development (Auth Service Completed)
+
+---
+
+# 📖 Table of Contents
+
+* Project Overview
+* Project Goals
+* Current Progress
+* Features
+* Technology Stack
+* High-Level Architecture
+* Project Structure
+* Getting Started
+* Local Development Setup
+* Environment Variables
+* Auth Service Overview
 
 ---
 
 # 🎯 Project Goals
 
-This project is being built to gain practical experience with:
+The primary objective of this project is to gain practical experience with production-grade backend and DevOps technologies.
 
-- FastAPI Backend Development
-- MySQL Database Design
-- Microservice Architecture
-- JWT Authentication & Authorization
-- Docker Containerization
-- Docker Compose Orchestration
-- Kubernetes Deployments
-- CI/CD Automation
-- AWS Cloud Deployment
-- Monitoring & Observability
+This project focuses on learning:
 
----
-
-# 📌 Current Development Phase
-
-Currently working on:
-
-### Auth Service (Microservice)
-
-Implemented:
-
-- User Registration
-- User Login
-- Password Hashing (bcrypt)
-- JWT Authentication
-- Protected Routes
-- Duplicate Email Validation
-- MySQL Integration
-- Docker Containerization
-- Docker Compose Setup
-- Service-to-Service Networking
+* FastAPI Backend Development
+* REST API Design
+* JWT Authentication
+* Password Hashing (bcrypt)
+* SQLAlchemy ORM
+* MySQL Database
+* Docker Containerization
+* Docker Compose
+* Kubernetes
+* Microservice Architecture
+* Service Discovery
+* Kubernetes Networking
+* ConfigMaps & Secrets
+* Persistent Storage
+* NGINX Ingress
+* CI/CD Pipelines
+* AWS Cloud Deployment
+* Monitoring & Observability
 
 ---
 
-# ✅ Completed Features
+# 📌 Current Development Status
 
-## Frontend
+## ✅ Completed
 
-### Next.js Setup
+### Frontend
 
-- Next.js Application Initialized
-- App Router Structure
-- Reusable Components Structure
-- TypeScript Setup
-- Responsive UI Layout
+* Next.js Project Setup
+* App Router Structure
+* Responsive UI
+* Home Page
+* Products Page
+* Cart Page
+* Orders Page
+* Profile Page
+* Login Page
+* Register Page
 
-### Pages Created
+---
 
-- Home Page
-- Products Page
-- Cart Page
-- Orders Page
-- Profile Page
-- Login Page
-- Register Page
+### Backend
+
+## Auth Service
+
+Completed:
+
+* User Registration
+* User Login
+* JWT Authentication
+* Password Hashing (bcrypt)
+* Protected Routes
+* Duplicate Email Validation
+* SQLAlchemy Integration
+* MySQL Integration
+
+---
+
+### DevOps
+
+Completed:
+
+* Dockerized Auth Service
+* Dockerized MySQL
+* Docker Compose
+* Multi-container Networking
+* Environment Variables
+* Kubernetes Deployment
+* Kubernetes Service
+* ConfigMap
+* Secret
+* Persistent Volume Claim (PVC)
+* Namespace
+* NGINX Ingress
+* Local Domain Routing (devmart.local)
+
+---
+
+# 🚧 Upcoming Services
+
+* Product Service
+* Order Service
+* API Gateway
+* GitHub Actions
+* AWS Deployment
+* Monitoring
+* Grafana
+* Prometheus
+
+---
+
+# ✨ Key Features
+
+## Authentication
+
+* Secure User Registration
+* Secure User Login
+* JWT Access Token
+* Protected APIs
+* Duplicate Email Validation
+* Password Hashing
 
 ---
 
 ## Backend
 
-### Auth Service
-
-Implemented:
-
-### User Registration API
-
-```http
-POST /api/users/register
-```
-
-Features:
-
-- User Creation
-- Password Hashing
-- MySQL Storage
-
----
-
-### User Login API
-
-```http
-POST /api/users/login
-```
-
-Features:
-
-- Email Validation
-- Password Verification
-- JWT Token Generation
-
----
-
-### Protected User Route
-
-```http
-GET /api/users/me
-```
-
-Features:
-
-- JWT Validation
-- Authentication Middleware
-- Protected Endpoint Access
-
----
-
-### Security
-
-Implemented:
-
-- bcrypt Password Hashing
-- JWT Authentication
-- HTTP Bearer Authentication
-- Protected Routes
-
----
-
-### Validation
-
-Implemented:
-
-- Duplicate Email Validation
-- Invalid Credential Validation
-- JWT Token Validation
+* FastAPI
+* SQLAlchemy ORM
+* Dependency Injection
+* Modular Project Structure
+* REST API
 
 ---
 
 ## Database
 
-### MySQL
-
-Implemented:
-
-- MySQL Docker Container
-- SQLAlchemy Integration
-- User Model
-- Users Table Creation
-- Database Connection Layer
+* MySQL
+* SQLAlchemy Models
+* Persistent Storage
 
 ---
 
 ## DevOps
 
-Implemented:
-
-### Docker
-
-Created:
-
-- Dockerfile for Auth Service
-- .dockerignore
-- Docker Image Build
-- Containerized FastAPI Application
+* Docker
+* Docker Compose
+* Kubernetes
+* ConfigMap
+* Secret
+* PVC
+* Ingress
+* Namespace
 
 ---
 
-### Docker Compose
+# 🛠 Technology Stack
 
-Created:
+## Frontend
 
-- MySQL Service
-- Auth Service
-- Service Networking
-- Environment Variables
-- Persistent Volume
+* Next.js
+* TypeScript
+* Tailwind CSS
 
 ---
 
-# 🏗️ Project Structure
+## Backend
 
-```bash
+* FastAPI
+* Python
+* SQLAlchemy
+* Pydantic
+* JWT
+* bcrypt
+
+---
+
+## Database
+
+* MySQL
+
+---
+
+## DevOps
+
+* Docker
+* Docker Compose
+* Kubernetes
+* Kind
+* kubectl
+* NGINX Ingress Controller
+
+---
+
+## Cloud (Upcoming)
+
+* AWS
+* GitHub Actions
+* Prometheus
+* Grafana
+
+---
+
+# 🏗 High-Level Architecture
+
+```
+                        Client
+                           │
+                           ▼
+                  NGINX Ingress
+                           │
+                           ▼
+                    Auth Service
+                           │
+                           ▼
+                     FastAPI Pod
+                           │
+                           ▼
+                    MySQL Service
+                           │
+                           ▼
+                      MySQL Pod
+                           │
+                           ▼
+                 Persistent Volume
+```
+
+---
+
+# 📂 Project Structure
+
+```text
 devmart-platform/
 │
 ├── frontend/
-│
 │   ├── app/
-│   │   ├── cart/
-│   │   ├── login/
-│   │   ├── orders/
-│   │   ├── products/
-│   │   ├── profile/
-│   │   └── register/
-│   │
 │   ├── components/
 │   ├── hooks/
 │   ├── lib/
@@ -200,155 +255,341 @@ devmart-platform/
 │   └── types/
 │
 ├── backend/
-│
 │   ├── auth-service/
-│   │
 │   │   ├── app/
 │   │   │
 │   │   ├── api/
 │   │   ├── core/
 │   │   ├── database/
+│   │   ├── middleware/
 │   │   ├── models/
 │   │   ├── schemas/
 │   │   ├── services/
 │   │   ├── utils/
-│   │
+│   │   │
 │   │   ├── Dockerfile
+│   │   ├── requirements.txt
 │   │   ├── .dockerignore
-│   │   └── requirements.txt
+│   │   └── .env
 │   │
 │   ├── product-service/
-│   │
 │   └── order-service/
 │
-├── docker-compose.yml
+├── k8s/
+│   ├── auth-services/
+│   │   ├── deployment.yaml
+│   │   ├── service.yaml
+│   │   └── secret.example.yaml
+│   │
+│   ├── mysql/
+│   │   ├── deployment.yaml
+│   │   ├── service.yaml
+│   │   └── pvc.yaml
+│   │
+│   ├── namespace.yaml
+│   ├── configmap.yaml
+│   ├── ingress.yaml
+│   ├── secret.yaml
+│   └── .gitignore
 │
+├── docker-compose.yml
 └── README.md
 ```
 
 ---
 
-# 🛠️ Technology Stack
+# 🚀 Getting Started
 
-## Frontend
+Clone the repository
 
-- Next.js
-- TypeScript
-- Tailwind CSS
+```bash
+git clone https://github.com/tahsinulhoque/devmart-platform.git
+```
+
+Go to the project
+
+```bash
+cd devmart-platform
+```
 
 ---
+
+# ⚙ Local Development Setup
 
 ## Backend
 
-- FastAPI
-- SQLAlchemy
-- Pydantic
-- JWT
-- bcrypt
+```bash
+cd backend/auth-service
+```
+
+Create Virtual Environment
+
+```bash
+python -m venv venv
+```
+
+Activate
+
+### Windows
+
+```bash
+venv\Scripts\activate
+```
+
+### Linux / macOS
+
+```bash
+source venv/bin/activate
+```
+
+Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
-## Database
+# 🔐 Environment Variables
 
-- MySQL
+Create a `.env` file inside the Auth Service.
+
+```
+MYSQL_HOST=mysql
+MYSQL_PORT=3306
+MYSQL_DATABASE=devmart_auth
+MYSQL_USER=root
+MYSQL_PASSWORD=your_password
+
+SECRET_KEY=your_secret_key
+
+ALGORITHM=HS256
+
+ACCESS_TOKEN_EXPIRE_MINUTES=60
+```
+
+> **Important:** Never commit the actual `.env` file or `secret.yaml` to GitHub. Use `.gitignore` and provide a `secret.example.yaml` for reference.
 
 ---
 
-## DevOps
+# 🔑 Auth Service Overview
 
-- Docker
-- Docker Compose
+The Auth Service is the first microservice of the DevMart platform.
+
+Current implementation includes:
+
+* User Registration
+* User Login
+* JWT Authentication
+* Password Hashing
+* Protected Routes
+* Duplicate Email Validation
+* MySQL Integration
+* Docker Support
+* Kubernetes Deployment
+* Ingress Support
 
 ---
-
 # 🔐 Authentication Flow
 
-### Register
+The Auth Service is responsible for handling user authentication and authorization.
 
-```http
-POST /api/users/register
-```
+Implemented authentication features include:
 
-↓
-
-User Stored in MySQL
-
-↓
-
-Password Hashed using bcrypt
+* User Registration
+* User Login
+* Password Hashing (bcrypt)
+* JWT Token Generation
+* Protected Routes
+* Duplicate Email Validation
 
 ---
 
-### Login
+## Authentication Workflow
 
-```http
-POST /api/users/login
+### User Registration
+
+```text
+Client
+   │
+   ▼
+POST /api/users/register
+   │
+   ▼
+Validate Request
+   │
+   ▼
+Check Duplicate Email
+   │
+   ▼
+Hash Password (bcrypt)
+   │
+   ▼
+Store User in MySQL
+   │
+   ▼
+Registration Successful
 ```
 
-↓
+---
 
-Credentials Verified
+### User Login
 
-↓
-
-JWT Token Generated
-
-↓
-
-Token Returned
+```text
+Client
+   │
+   ▼
+POST /api/users/login
+   │
+   ▼
+Verify Email
+   │
+   ▼
+Verify Password
+   │
+   ▼
+Generate JWT Token
+   │
+   ▼
+Return Access Token
+```
 
 ---
 
 ### Protected Route
 
+```text
+Client
+   │
+   ▼
+Authorization: Bearer <JWT_TOKEN>
+   │
+   ▼
+Validate JWT
+   │
+   ▼
+Load Current User
+   │
+   ▼
+Return Protected Data
+```
+
+---
+
+# 🌐 API Endpoints
+
+## Register User
+
+```http
+POST /api/users/register
+```
+
+### Request
+
+```json
+{
+  "full_name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+### Response
+
+```json
+{
+  "message": "User registered successfully"
+}
+```
+
+---
+
+## Login User
+
+```http
+POST /api/users/login
+```
+
+### Request
+
+```json
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+### Response
+
+```json
+{
+  "access_token": "JWT_TOKEN",
+  "token_type": "bearer"
+}
+```
+
+---
+
+## Current User
+
 ```http
 GET /api/users/me
 ```
 
-↓
+### Header
 
-Bearer Token Sent
-
-↓
-
-JWT Validated
-
-↓
-
-User Information Returned
-
----
-
-# 🐳 Docker Commands
-
-## Build Auth Service Image
-
-```bash
-docker build -t auth-service .
+```http
+Authorization: Bearer JWT_TOKEN
 ```
 
 ---
 
-## Run Auth Service Container
+# 🐳 Docker Setup
+
+The Auth Service is fully containerized using Docker.
+
+## Build Docker Image
+
+Navigate to the Auth Service directory.
 
 ```bash
-docker run -d \
---name auth-container \
--p 8000:8000 \
--e MYSQL_HOST=host.docker.internal \
--e MYSQL_PORT=3306 \
--e MYSQL_DATABASE=devmart_auth \
--e MYSQL_USER=root \
--e MYSQL_PASSWORD=root123 \
--e SECRET_KEY=my-super-secret-key-for-devmart \
--e ALGORITHM=HS256 \
--e ACCESS_TOKEN_EXPIRE_MINUTES=60 \
-auth-service
+cd backend/auth-service
+```
+
+Build the Docker image.
+
+```bash
+docker build -t devmart-platform-auth-service:latest .
+```
+
+Verify the image.
+
+```bash
+docker images
 ```
 
 ---
 
-## Check Running Containers
+## Run Docker Container
+
+```bash
+docker run -d ^
+--name auth-service ^
+-p 8000:8000 ^
+-e MYSQL_HOST=host.docker.internal ^
+-e MYSQL_PORT=3306 ^
+-e MYSQL_DATABASE=devmart_auth ^
+-e MYSQL_USER=root ^
+-e MYSQL_PASSWORD=root123 ^
+-e SECRET_KEY=my-super-secret-key ^
+-e ALGORITHM=HS256 ^
+-e ACCESS_TOKEN_EXPIRE_MINUTES=60 ^
+devmart-platform-auth-service:latest
+```
+
+---
+
+## Verify Running Containers
 
 ```bash
 docker ps
@@ -356,10 +597,18 @@ docker ps
 
 ---
 
-## Check Logs
+## View Logs
 
 ```bash
-docker logs auth-container
+docker logs auth-service
+```
+
+---
+
+## Execute Inside Container
+
+```bash
+docker exec -it auth-service bash
 ```
 
 ---
@@ -367,7 +616,15 @@ docker logs auth-container
 ## Stop Container
 
 ```bash
-docker stop auth-container
+docker stop auth-service
+```
+
+---
+
+## Start Existing Container
+
+```bash
+docker start auth-service
 ```
 
 ---
@@ -375,14 +632,39 @@ docker stop auth-container
 ## Remove Container
 
 ```bash
-docker rm auth-container
+docker rm auth-service
 ```
 
 ---
 
-# 🐳 Docker Compose Commands
+## Remove Docker Image
 
-## Build & Start
+```bash
+docker rmi devmart-platform-auth-service:latest
+```
+
+---
+
+## Remove Unused Docker Resources
+
+```bash
+docker system prune -a
+```
+
+---
+
+# 🐳 Docker Compose
+
+Docker Compose is used to orchestrate multiple services locally.
+
+Current services include:
+
+* Auth Service
+* MySQL Database
+
+---
+
+## Build and Start Services
 
 ```bash
 docker compose up --build -d
@@ -390,7 +672,15 @@ docker compose up --build -d
 
 ---
 
-## Check Containers
+## Start Existing Services
+
+```bash
+docker compose up -d
+```
+
+---
+
+## View Running Services
 
 ```bash
 docker compose ps
@@ -404,6 +694,20 @@ docker compose ps
 docker compose logs
 ```
 
+Follow logs continuously:
+
+```bash
+docker compose logs -f
+```
+
+---
+
+## Restart Services
+
+```bash
+docker compose restart
+```
+
 ---
 
 ## Stop Services
@@ -414,158 +718,89 @@ docker compose down
 
 ---
 
-# 🌐 API Endpoints
+## Stop Services and Remove Volumes
 
-## Register
-
-```http
-POST /api/users/register
-```
-
-Request:
-
-```json
-{
-  "full_name": "John Doe",
-  "email": "john@example.com",
-  "password": "password123"
-}
+```bash
+docker compose down -v
 ```
 
 ---
 
-## Login
+## Rebuild Services
 
-```http
-POST /api/users/login
-```
-
-Request:
-
-```json
-{
-  "email": "john@example.com",
-  "password": "password123"
-}
-```
-
-Response:
-
-```json
-{
-  "access_token": "JWT_TOKEN",
-  "token_type": "bearer"
-}
+```bash
+docker compose build --no-cache
 ```
 
 ---
 
-## Get Current User
+## Verify Containers
 
-```http
-GET /api/users/me
-```
-
-Authorization:
-
-```http
-Bearer JWT_TOKEN
+```bash
+docker ps
 ```
 
 ---
 
-# 📚 Key Concepts Learned
+# 🌍 Local Access
 
-During development, the following concepts were explored:
+After running Docker Compose:
 
-- Microservice vs Route
-- Docker Image vs Container
-- Dockerfile vs Docker Compose
-- Environment Variables
-- Container Networking
-- Service Discovery
-- JWT Authentication
-- Protected APIs
-- Database Persistence
-- FastAPI Dependency Injection
-- SQLAlchemy ORM
+## FastAPI Root
+
+```text
+http://localhost:8000/
+```
 
 ---
 
-# 🚀 Upcoming Milestones
+## Swagger UI
 
-## Backend
-
-- Product Service
-- Order Service
-- API Gateway
-- Inter-Service Communication
+```text
+http://localhost:8000/docs
+```
 
 ---
 
-## DevOps
+## OpenAPI Specification
 
-- Multi-Service Docker Compose
-- GitHub Actions CI/CD
-- Kubernetes Deployments
-- Kubernetes Services
-- Ingress Controller
+```text
+http://localhost:8000/openapi.json
+```
 
 ---
 
-## Cloud
+# ✅ Docker Development Checklist
 
-- AWS Deployment
-- ECR
-- ECS / EKS
-- Prometheus
-- Grafana
-
----
-
-# 📈 Current Status
-
-### Project Status
-
-🚧 Active Development
-
-### Completed
-
-✅ Frontend Setup
-
-✅ Auth Service
-
-✅ JWT Authentication
-
-✅ Protected Routes
-
-✅ MySQL Integration
-
-✅ Dockerized Auth Service
-
-✅ Dockerized MySQL
-
-✅ Docker Compose Setup
-
-✅ Service Networking
-
-### In Progress
-
-🔄 Product Service
-
-🔄 Order Service
-
-🔄 Kubernetes
-
-🔄 CI/CD Pipeline
+* Docker Desktop Installed
+* Auth Service Dockerfile Created
+* MySQL Container Running
+* Docker Compose Networking Configured
+* Environment Variables Configured
+* FastAPI Accessible
+* Swagger UI Accessible
+* MySQL Connected Successfully
+* JWT Authentication Working
+* Protected Routes Tested
 
 ---
 
-# 👨‍💻 Author
+# 📚 Docker Concepts Learned
 
-### Md. Tahsinul Hoque Siddiki
+During this phase, the following concepts were explored:
 
-Aspiring DevOps & Cloud Engineer
-
-GitHub:
-https://github.com/tahsinulhoque
+* Docker Images
+* Docker Containers
+* Dockerfile
+* Docker Compose
+* Multi-Container Applications
+* Environment Variables
+* Container Networking
+* Port Mapping
+* Bind Mounts
+* Named Volumes
+* Service-to-Service Communication
+* Image Build Process
+* Container Lifecycle
+* Docker Logs
+* Docker Debugging
