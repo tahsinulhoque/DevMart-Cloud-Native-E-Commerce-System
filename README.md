@@ -214,82 +214,63 @@ devmart-platform/
 ├── docker-compose.yml
 └── README.md
 ```
-
 ---
 
-# 🚀 Getting Started
+# 🚀 Quick Start
 
-Clone the repository
-
+## 1. Clone the Repository
 ```bash
 git clone https://github.com/tahsinulhoque/devmart-platform.git
-```
-
-Go to the project
-
-```bash
 cd devmart-platform
 ```
-
+---
+## 2. Start the Application with Docker Compose
+```bash
+docker compose up --build -d
+```
+Verify running containers:
+```bash
+docker compose ps
+```
 ---
 
-# ⚙ Local Development Setup
-
-## Backend
-
+## 3. Deploy to Kubernetes (Optional)
+Create the Kubernetes resources:
 ```bash
-cd backend/auth-service
+kubectl apply -f k8s/namespace.yaml
+kubectl apply -f k8s/configmap.yaml
+kubectl apply -f k8s/auth-services/secret.yaml
+kubectl apply -f k8s/mysql/pvc.yaml
+kubectl apply -f k8s/mysql/deployment.yaml
+kubectl apply -f k8s/mysql/service.yaml
+kubectl apply -f k8s/auth-services/deployment.yaml
+kubectl apply -f k8s/auth-services/service.yaml
+kubectl apply -f k8s/ingress.yaml
 ```
-
-Create Virtual Environment
-
+Verify the deployment:
 ```bash
-python -m venv venv
+kubectl get all -n devmart
 ```
-
-Activate
-
-### Windows
-
-```bash
-venv\Scripts\activate
-```
-
-### Linux / macOS
-
-```bash
-source venv/bin/activate
-```
-
-Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
 ---
 
-# 🔐 Environment Variables
+## 4. Access the Application
 
-Create a `.env` file inside the Auth Service.
-
+### Docker Compose
 ```
-MYSQL_HOST=mysql
-MYSQL_PORT=3306
-MYSQL_DATABASE=devmart_auth
-MYSQL_USER=root
-MYSQL_PASSWORD=your_password
-
-SECRET_KEY=your_secret_key
-
-ALGORITHM=HS256
-
-ACCESS_TOKEN_EXPIRE_MINUTES=60
+http://localhost:8000/docs
 ```
-
-> **Important:** Never commit the actual `.env` file or `secret.yaml` to GitHub. Use `.gitignore` and provide a `secret.example.yaml` for reference.
-
+### Kubernetes (Ingress)
+```
+http://devmart.local:8080/docs
+```
 ---
+## 5. Stop the Application
+Docker Compose:
+```bash
+docker compose down
+```
+
+
 
 # 🔑 Auth Service Overview
 
