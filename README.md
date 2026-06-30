@@ -10,23 +10,64 @@ As the project evolves, additional microservices—including Product Service, Or
 
 > **Current Status:** 🚧 Active Development (Auth Service Completed)
 
+# ✨ Features
+
+## Frontend
+- Next.js Application
+- Responsive User Interface
+- App Router Architecture
+- Reusable Components
+- TypeScript Support
 ---
 
-# 📖 Table of Contents
-
-* Project Overview
-* Project Goals
-* Current Progress
-* Features
-* Technology Stack
-* High-Level Architecture
-* Project Structure
-* Getting Started
-* Local Development Setup
-* Environment Variables
-* Auth Service Overview
-
+## Authentication Service
+- User Registration
+- User Login
+- JWT Authentication
+- Protected Routes
+- Password Hashing (bcrypt)
+- Duplicate Email Validation
+- Secure HTTP Bearer Authentication
 ---
+
+## Backend
+- FastAPI REST APIs
+- SQLAlchemy ORM
+- Pydantic Data Validation
+- Modular Project Structure
+- Environment-Based Configuration
+---
+
+## Database
+- MySQL Integration
+- User Management
+- Persistent Data Storage
+---
+
+## DevOps
+- Dockerized Microservices
+- Docker Compose Orchestration
+- Multi-Container Networking
+- Environment Variable Management
+---
+
+## Kubernetes
+- Kubernetes Deployments
+- Kubernetes Services
+- ConfigMaps
+- Secrets
+- Persistent Volume Claims (PVC)
+- Namespaces
+- NGINX Ingress Controller
+- Local Domain Routing (`devmart.local`)
+- Kubernetes Service-to-Service Communication
+---
+
+## Cloud-Native Architecture
+- Microservice-Based Design
+- Containerized Applications
+- Kubernetes-Ready Infrastructure
+- Production-Oriented Project Structure
 
 # 🎯 Project Goals
 
