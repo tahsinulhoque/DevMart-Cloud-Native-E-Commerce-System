@@ -361,9 +361,7 @@ Aspiring DevOps & Cloud Engineer
 - GitHub: https://github.com/tahsinulhoque
 - LinkedIn: https://www.linkedin.com/in/tahsinulhoque/
 - Email: tahsinulhoquesiddiki@gmail.com
-- Portfolio: https://tahsinulhoque.netlify.app/
-
-
+- Portfolio: https://tahsinulhoque.netlify.app
 ---
 
 ⭐ If you found this project helpful, consider giving it a star on GitHub.
