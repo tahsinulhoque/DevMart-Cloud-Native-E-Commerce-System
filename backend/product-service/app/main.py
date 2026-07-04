@@ -5,8 +5,10 @@ from app.database.db import engine
 
 app = FastAPI(
     title="Product Service",
-    version="1.0.0"
+    version="1.0.0",
+    description="DevMart Product Service"
 )
+
 
 @app.get("/")
 def root():
@@ -15,12 +17,25 @@ def root():
     }
 
 
+@app.get("/health")
+def health():
+    return {
+        "status": "healthy"
+    }
+
+
 @app.get("/db-test")
 def db_test():
+    try:
+        with engine.connect() as connection:
+            connection.execute(text("SELECT 1"))
 
-    with engine.connect() as connection:
-        result = connection.execute(text("SELECT 1"))
+        return {
+            "database": "connected"
+        }
 
-    return {
-        "database": "connected"
-    }
+    except Exception as e:
+        return {
+            "database": "connection failed",
+            "error": str(e)
+        }
