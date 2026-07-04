@@ -1,13 +1,16 @@
 from fastapi import FastAPI
 from sqlalchemy import text
 
-from app.database.db import engine
+from app.database.db import Base, engine
+from app.models.product import Product
 
 app = FastAPI(
     title="Product Service",
     version="1.0.0",
     description="DevMart Product Service"
 )
+
+Base.metadata.create_all(bind=engine)
 
 
 @app.get("/")
