@@ -3,6 +3,7 @@ from sqlalchemy import text
 
 from app.database.db import Base, engine
 from app.models.product import Product
+from app.api.products import router as product_router
 
 app = FastAPI(
     title="Product Service",
@@ -10,7 +11,11 @@ app = FastAPI(
     description="DevMart Product Service"
 )
 
+# Create database tables
 Base.metadata.create_all(bind=engine)
+
+# Register API routes
+app.include_router(product_router)
 
 
 @app.get("/")
