@@ -8,14 +8,15 @@ services:
     restart: always
 
     environment:
-      MYSQL_ROOT_PASSWORD: root123
-      MYSQL_DATABASE: devmart_auth
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${AUTH_MYSQL_DATABASE}
 
     ports:
       - "3306:3306"
 
     volumes:
       - mysql_data:/var/lib/mysql
+
 
   auth-service:
     build:
@@ -29,18 +30,41 @@ services:
       - mysql
 
     environment:
-      MYSQL_HOST: mysql
-      MYSQL_PORT: 3306
-      MYSQL_DATABASE: devmart_auth
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root123
+      MYSQL_HOST: ${AUTH_MYSQL_HOST}
+      MYSQL_PORT: ${AUTH_MYSQL_PORT}
+      MYSQL_DATABASE: ${AUTH_MYSQL_DATABASE}
+      MYSQL_USER: ${AUTH_MYSQL_USER}
+      MYSQL_PASSWORD: ${AUTH_MYSQL_PASSWORD}
 
-      SECRET_KEY: my-super-secret-key-for-devmart
-      ALGORITHM: HS256
-      ACCESS_TOKEN_EXPIRE_MINUTES: 60
+      SECRET_KEY: ${SECRET_KEY}
+      ALGORITHM: ${ALGORITHM}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES}
 
     ports:
       - "8000:8000"
+
+
+  product-service:
+    build:
+      context: ./backend/product-service
+
+    container_name: product-service
+
+    restart: always
+
+    depends_on:
+      - mysql
+
+    environment:
+      MYSQL_HOST: ${PRODUCT_MYSQL_HOST}
+      MYSQL_PORT: ${PRODUCT_MYSQL_PORT}
+      MYSQL_DATABASE: ${PRODUCT_MYSQL_DATABASE}
+      MYSQL_USER: ${PRODUCT_MYSQL_USER}
+      MYSQL_PASSWORD: ${PRODUCT_MYSQL_PASSWORD}
+
+    ports:
+      - "8001:8001"
+
 
 volumes:
   mysql_data:
