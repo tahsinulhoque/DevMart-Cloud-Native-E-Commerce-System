@@ -63,8 +63,8 @@ services:
       MYSQL_PASSWORD: ${PRODUCT_MYSQL_PASSWORD}
 
     ports:
-      - "8001:8001"
+      - "8001:8001
 
 
 volumes:
-  mysql_data:
+  mysql_data
