@@ -1,581 +1,392 @@
-# 🚀 DevMart — Cloud-Native E-Commerce System
+# DevMart --- Secure CI/CD & DevSecOps Platform
 
-> A cloud-native, microservices-based e-commerce platform built to explore modern backend development, containerization, Kubernetes orchestration, and DevOps practices.
+> A cloud-native e-commerce platform evolving toward automated CI/CD,
+> security scanning, Kubernetes orchestration, AWS deployment, GitOps,
+> and observability.
 
-**DevMart** is an actively evolving e-commerce platform designed around a microservices architecture. The project focuses on building independently deployable services and gradually introducing production-oriented DevOps practices such as Docker, Kubernetes, CI/CD, cloud deployment, monitoring, and observability.
+**Repository:**
+[`devmart-jenkins-devsecops`](https://github.com/tahsinulhoque/devmart-jenkins-devsecops)\
+**Project status:** Active development\
+**Primary CI/CD target:** Jenkins\
+**Deployment target:** Amazon EKS (planned)\
+**GitOps target:** Argo CD (planned)
 
-At the current stage, the **Authentication Service is fully implemented** with FastAPI, JWT authentication, bcrypt password hashing, MySQL, Docker, Docker Compose, and Kubernetes. The Kubernetes setup includes ConfigMaps, Secrets, Persistent Volume Claims, Services, Namespaces, and NGINX Ingress.
+------------------------------------------------------------------------
 
-> **Current Status:**  Active Development — Authentication Service completed and deployed locally with Docker & Kubernetes.
+## Overview
 
----
+DevMart is an evolving cloud-native e-commerce project used to practice
+backend development, containerization, Kubernetes, CI/CD, DevSecOps, and
+cloud infrastructure.
 
-## 📌 Table of Contents
+The current implementation includes a FastAPI Authentication Service
+with JWT-based authentication, bcrypt password hashing, SQLAlchemy,
+MySQL, Docker, Docker Compose, and local Kubernetes manifests. The
+frontend and additional backend service directories are part of the
+repository; full application integration and the wider production
+architecture remain in progress.
 
-* [Overview](#-overview)
-* [Current Implementation](#-current-implementation)
-* [Key Features](#-key-features)
-* [System Architecture](#-system-architecture)
-* [Technology Stack](#-technology-stack)
-* [Project Structure](#-project-structure)
-* [Authentication Service](#-authentication-service)
-* [Docker Setup](#-docker-setup)
-* [Kubernetes Deployment](#-kubernetes-deployment)
-* [API Documentation](#-api-documentation)
-* [Configuration](#-configuration)
-* [Development Workflow](#-development-workflow)
-* [Roadmap](#-roadmap)
-* [Project Goals](#-project-goals)
-* [Future Architecture](#-future-architecture)
-* [Author](#-author)
+The next phase is to make **Jenkins the primary CI/CD orchestrator**,
+add code-quality and security gates, publish versioned container images
+to Amazon ECR, and deploy to Amazon EKS. Argo CD is planned to manage
+Kubernetes delivery through GitOps, while Prometheus and Grafana will
+provide monitoring and dashboards.
 
----
+> **Status note:** Tools and infrastructure marked *Planned* or *In
+> progress* are target work, not claims of an already completed
+> deployment.
 
-# 🎯 Overview
+## Table of Contents
 
-DevMart is being developed as a practical **cloud-native e-commerce system** rather than a traditional monolithic application.
+-   [Current Implementation](#current-implementation)
+-   [Target Architecture](#target-architecture)
+-   [Technology Stack](#technology-stack)
+-   [Repository Structure](#repository-structure)
+-   [Authentication Service](#authentication-service)
+-   [Run Locally with Docker Compose](#run-locally-with-docker-compose)
+-   [Local Kubernetes](#local-kubernetes)
+-   [Configuration and Secrets](#configuration-and-secrets)
+-   [Jenkins CI/CD and DevSecOps Plan](#jenkins-cicd-and-devsecops-plan)
+-   [AWS Deployment Plan](#aws-deployment-plan)
+-   [GitOps with Argo CD](#gitops-with-argo-cd)
+-   [Monitoring and Observability](#monitoring-and-observability)
+-   [Security Principles](#security-principles)
+-   [Roadmap](#roadmap)
+-   [Testing and Troubleshooting](#testing-and-troubleshooting)
+-   [Author](#author)
 
-The project follows a gradual implementation approach:
+------------------------------------------------------------------------
 
-```text
-Application Development
-        ↓
-Microservice Architecture
-        ↓
-Containerization
-        ↓
-Docker Compose
-        ↓
-Kubernetes
-        ↓
-CI/CD
-        ↓
-AWS Cloud
-        ↓
-Monitoring & Observability
-        ↓
-Production Readiness
+## Current Implementation
+
+### Implemented foundation
+
+-   FastAPI Authentication Service
+-   User registration and login endpoints
+-   JWT token generation and validation
+-   Password hashing with bcrypt
+-   Protected API routes and HTTP Bearer authentication
+-   SQLAlchemy ORM and Pydantic validation
+-   MySQL integration
+-   Dockerized authentication service
+-   Docker Compose configuration for local development
+-   Kubernetes manifests for namespace, application deployment, service,
+    configuration, secrets, MySQL, persistent volume claim, and NGINX
+    Ingress
+-   Local routing configuration using `devmart.local`
+    (environment-dependent)
+
+### In progress / not yet confirmed as production-ready
+
+-   Complete frontend-to-backend integration
+-   Full e-commerce user flows
+-   Automated CI/CD using Jenkins
+-   Automated quality and security gates
+-   AWS infrastructure and EKS deployment
+-   GitOps delivery with Argo CD
+-   Monitoring, alerting, and centralized logs
+
+------------------------------------------------------------------------
+
+## Target Architecture
+
+The following diagram describes the **planned target architecture**, not
+a currently deployed production environment.
+
+``` text
+Developer
+   |
+   v
+GitHub Repository (monorepo)
+   |
+   | push / pull request
+   v
+Jenkins Pipeline (Jenkinsfile)
+   |
+   +--> Checkout and change detection
+   +--> Build and automated tests
+   +--> SonarQube analysis and Quality Gate
+   +--> OWASP Dependency-Check
+   +--> Trivy filesystem / configuration scan
+   +--> Build container images
+   +--> Trivy container image scan
+   |
+   | required checks pass
+   v
+Amazon ECR (versioned container images)
+   |
+   v
+Deployment configuration / GitOps repository
+   |
+   v
+Argo CD (planned)
+   |
+   v
+Amazon EKS (planned Kubernetes runtime)
+   |
+   +--> Frontend workload (when integrated)
+   +--> Authentication Service
+   +--> Additional services as they are implemented
+   +--> Ingress / AWS Load Balancer
+   +--> Database (Amazon RDS for MySQL is the preferred production option)
+   |
+   v
+Prometheus + Grafana + Kubernetes metrics
+   |
+   +--> Dashboards and alerts
+   +--> AWS CloudWatch for AWS/platform logs and metrics where configured
 ```
 
-The current implementation establishes the foundation for this architecture by providing a working Authentication Service with persistent MySQL storage and Kubernetes deployment.
+### Pipeline responsibilities
 
----
+  -----------------------------------------------------------------------
+  Component               Responsibility          Status
+  ----------------------- ----------------------- -----------------------
+  GitHub                  Source control and pull Implemented
+                          requests                
 
-# ✅ Current Implementation
+  Jenkins                 CI orchestration        Planned
+                          through `Jenkinsfile`   
 
-The following components are currently implemented:
+  SonarQube               Static analysis and     Planned
+                          Quality Gate            
 
-### Authentication Service
+  OWASP Dependency-Check  Dependency              Planned
+                          vulnerability analysis  
 
-* User registration
-* User login
-* JWT-based authentication
-* Protected API routes
-* Password hashing using bcrypt
-* Duplicate email validation
-* HTTP Bearer authentication
-* FastAPI REST API
-* SQLAlchemy ORM
-* Pydantic validation
-* MySQL database integration
+  Trivy                   Filesystem and          Planned
+                          container image         
+                          scanning                
 
-### Containerization
+  Docker                  Build container images  Local containerization
+                                                  implemented; CI image
+                                                  pipeline planned
 
-* Dockerized Authentication Service
-* Docker image build
-* Docker Compose configuration
-* Multi-container networking
-* Environment-based configuration
+  Amazon ECR              Store versioned         Planned
+                          container images        
 
-### Kubernetes
+  Amazon EKS              Run Kubernetes          Planned
+                          workloads on AWS        
 
-* Kubernetes Namespace
-* Deployment
-* Service
-* ConfigMap
-* Secret
-* Persistent Volume Claim
-* MySQL Deployment
-* MySQL Service
-* NGINX Ingress
-* Kubernetes service-to-service communication
-* Local domain routing using `devmart.local`
+  Argo CD                 Reconcile Kubernetes    Planned
+                          desired state from Git  
 
----
+  Prometheus              Collect metrics         Planned
 
-# ✨ Key Features
+  Grafana                 Dashboards and          Planned
+                          visualization           
 
-## 🔐 Authentication
+  CloudWatch              AWS logs and metrics    Planned
+                          where configured        
+  -----------------------------------------------------------------------
 
-The Authentication Service provides the security foundation of the platform.
+------------------------------------------------------------------------
 
-### Implemented
+## Technology Stack
 
-* Registration API
-* Login API
-* JWT token generation
-* JWT token validation
-* Password hashing
-* Protected endpoints
-* Email uniqueness validation
-* Bearer token authentication
+  -----------------------------------------------------------------------
+  Area                    Technologies            Status
+  ----------------------- ----------------------- -----------------------
+  Frontend                Next.js, TypeScript,    Present in repository;
+                          Tailwind CSS            integration work
+                                                  remains
 
----
+  Backend                 Python, FastAPI,        Authentication service
+                          SQLAlchemy, Pydantic    implemented
 
-## 🐍 FastAPI Backend
+  Authentication          JWT, bcrypt, HTTP       Implemented for
+                          Bearer                  authentication service
 
-The backend is implemented using **FastAPI** with a modular architecture.
+  Database                MySQL                   Local integration
+                                                  implemented
 
-Main technologies:
+  Containers              Docker, Docker Compose  Local setup implemented
 
-* Python
-* FastAPI
-* SQLAlchemy
-* Pydantic
-* JWT
-* bcrypt
+  Orchestration           Kubernetes, kubectl,    Local Kubernetes
+                          Kind, NGINX Ingress     foundation implemented
 
-The backend separates API routes, business logic, database access, models, schemas, and configuration to keep the service maintainable.
+  CI/CD                   Jenkins, Jenkinsfile    Planned
 
----
+  Code quality            SonarQube, Quality Gate Planned
 
-## 🗄️ MySQL Database
+  Dependency security     OWASP Dependency-Check  Planned
 
-MySQL is currently used as the persistent database for the Authentication Service.
+  Container / filesystem  Trivy                   Planned
+  security                                        
 
-The database is responsible for storing user-related information.
+  Registry                Amazon ECR              Planned
 
-The Kubernetes deployment also uses persistent storage through a **Persistent Volume Claim (PVC)**.
+  Cloud Kubernetes        Amazon EKS              Planned
 
----
+  Infrastructure as Code  Terraform               Planned
 
-## 🐳 Docker
+  GitOps                  Argo CD                 Planned
 
-The Authentication Service is containerized using Docker.
+  Monitoring              Prometheus, Grafana,    Planned
+                          Node Exporter,          
+                          kube-state-metrics      
 
-Docker is used to provide:
+  AWS observability       CloudWatch              Planned
+  -----------------------------------------------------------------------
 
-* Reproducible environments
-* Isolated application runtime
-* Consistent development environment
-* Easy local deployment
-* Container-to-container networking
+------------------------------------------------------------------------
 
----
+## Repository Structure
 
-## ☸️ Kubernetes
+The structure below reflects the repository's main areas. Individual
+services and manifests should be checked in the working tree before
+assuming every planned component is complete.
 
-The current application can be deployed to a local Kubernetes environment.
-
-The Kubernetes configuration includes:
-
-* Namespace
-* Deployment
-* Service
-* ConfigMap
-* Secret
-* Persistent Volume Claim
-* NGINX Ingress
-
-This provides the foundation for scaling the platform into multiple independent services.
-
----
-
-# 🏗️ System Architecture
-
-## Current Architecture
-
-```text
-                    ┌──────────────────┐
-                    │      Client      │
-                    └────────┬─────────┘
-                             │
-                             ▼
-                  ┌─────────────────────┐
-                  │    NGINX Ingress    │
-                  │   devmart.local     │
-                  └──────────┬──────────┘
-                             │
-                             ▼
-                  ┌─────────────────────┐
-                  │   Auth Service     │
-                  │      FastAPI       │
-                  └──────────┬──────────┘
-                             │
-                             ▼
-                  ┌─────────────────────┐
-                  │   MySQL Service     │
-                  └──────────┬──────────┘
-                             │
-                             ▼
-                  ┌─────────────────────┐
-                  │    MySQL Pod        │
-                  └──────────┬──────────┘
-                             │
-                             ▼
-                  ┌─────────────────────┐
-                  │ Persistent Storage   │
-                  │        PVC           │
-                  └─────────────────────┘
-```
-
----
-
-# 🛠️ Technology Stack
-
-## Frontend
-
-| Technology   | Purpose               |
-| ------------ | --------------------- |
-| Next.js      | Frontend framework    |
-| TypeScript   | Type-safe development |
-| Tailwind CSS | UI styling            |
-
----
-
-## Backend
-
-| Technology | Purpose                      |
-| ---------- | ---------------------------- |
-| Python     | Backend programming language |
-| FastAPI    | REST API framework           |
-| SQLAlchemy | ORM                          |
-| Pydantic   | Data validation              |
-| JWT        | Authentication               |
-| bcrypt     | Password hashing             |
-
----
-
-## Database
-
-| Technology        | Purpose                       |
-| ----------------- | ----------------------------- |
-| MySQL             | Relational database           |
-| Persistent Volume | Persistent Kubernetes storage |
-
----
-
-## DevOps & Infrastructure
-
-| Technology     | Status     |
-| -------------- | ---------- |
-| Git            | ✅          |
-| GitHub         | ✅          |
-| Docker         | ✅          |
-| Docker Compose | ✅          |
-| Kubernetes     | ✅          |
-| kubectl        | ✅          |
-| Kind           | ✅          |
-| NGINX Ingress  | ✅          |
-| GitHub Actions | 🚧 Planned |
-| AWS EC2        | 🚧 Planned |
-| Amazon ECR     | 🚧 Planned |
-| Amazon EKS     | 🚧 Planned |
-| Prometheus     | 🚧 Planned |
-| Grafana        | 🚧 Planned |
-
----
-
-## Development Tools
-
-* Visual Studio Code
-* Postman
-* Swagger UI
-* Git & GitHub
-
----
-
-# 📂 Project Structure
-
-```text
-DevMart-Cloud-Native-E-Commerce-System/
-│
+``` text
+devmart-jenkins-devsecops/
 ├── frontend/
-│   ├── app/
-│   ├── components/
-│   ├── hooks/
-│   ├── lib/
-│   ├── public/
-│   └── types/
-│
 ├── backend/
 │   ├── auth-service/
-│   │   ├── app/
-│   │   │   ├── api/
-│   │   │   ├── core/
-│   │   │   ├── database/
-│   │   │   ├── middleware/
-│   │   │   ├── models/
-│   │   │   ├── schemas/
-│   │   │   ├── services/
-│   │   │   └── utils/
-│   │   │
-│   │   ├── Dockerfile
-│   │   ├── requirements.txt
-│   │   └── .dockerignore
-│   │
-│   ├── product-service/
-│   └── order-service/
-│
+│   ├── product-service/        # Verify implementation status
+│   └── order-service/          # Verify implementation status
 ├── k8s/
 │   ├── auth-services/
-│   │   ├── deployment.yaml
-│   │   ├── service.yaml
-│   │   └── secret.example.yaml
-│   │
 │   ├── mysql/
-│   │   ├── deployment.yaml
-│   │   ├── service.yaml
-│   │   └── pvc.yaml
-│   │
 │   ├── namespace.yaml
 │   ├── configmap.yaml
 │   ├── ingress.yaml
-│   ├── secret.yaml
 │   └── .gitignore
-│
 ├── docs/
-│
 ├── docker-compose.yml
-│
+├── .gitignore
+├── Jenkinsfile                 # To be added
 └── README.md
 ```
 
----
+Do not commit local `.env` files or real credentials. If a file such as
+`k8s/secret.yaml` contains real values, remove those values from version
+control and replace them with a safe example or a secret-management
+approach before publishing.
 
-# 🔐 Authentication Service
+------------------------------------------------------------------------
 
-The Authentication Service is the first fully implemented microservice of DevMart.
+## Authentication Service
 
-## Responsibilities
+The Authentication Service is the first documented backend service in
+DevMart.
 
-```text
-User
- │
- ├── Register
- │       ↓
- │   Validate Input
- │       ↓
- │   Hash Password
- │       ↓
- │   Store User
- │       ↓
- │   MySQL
- │
- └── Login
-         ↓
-     Validate Credentials
-         ↓
-     Generate JWT
-         ↓
-     Return Access Token
+### Main responsibilities
+
+-   Register a user
+-   Validate input
+-   Check email uniqueness
+-   Hash passwords with bcrypt
+-   Store user data through SQLAlchemy and MySQL
+-   Authenticate login requests
+-   Generate JWT access tokens
+-   Validate bearer tokens for protected endpoints
+
+### Typical request flow
+
+``` text
+Registration:
+Client -> POST /register -> Validate input -> Hash password
+       -> Store user in MySQL -> Return response
+
+Login:
+Client -> POST /login -> Validate credentials
+       -> Verify password -> Generate JWT -> Return token
+
+Protected endpoint:
+Client -> Authorization: Bearer <JWT>
+       -> Validate token -> Authorize request
 ```
 
----
+Use the service's actual API routes and configuration as the source of
+truth; endpoint names can differ between implementations.
 
-## Authentication Flow
+------------------------------------------------------------------------
 
-### Registration
+## Run Locally with Docker Compose
 
-```text
-Client
-  ↓
-POST /register
-  ↓
-FastAPI
-  ↓
-Pydantic Validation
-  ↓
-Check Existing Email
-  ↓
-bcrypt Password Hash
-  ↓
-SQLAlchemy
-  ↓
-MySQL
-```
+Run these commands from the repository root, where `docker-compose.yml`
+is located.
 
-### Login
+### Start services
 
-```text
-Client
-  ↓
-POST /login
-  ↓
-FastAPI
-  ↓
-Validate Credentials
-  ↓
-Verify Password
-  ↓
-Generate JWT
-  ↓
-Return Access Token
-```
-
-### Protected Route
-
-```text
-Client
-  ↓
-Authorization: Bearer <JWT>
-  ↓
-JWT Validation
-  ↓
-Authenticated Request
-  ↓
-Protected Resource
-```
-
----
-
-# 🐳 Docker Setup
-
-Docker Compose is used to run the current application stack locally.
-
-## Start the application
-
-```bash
+``` bash
 docker compose up --build -d
 ```
 
-Check running containers:
+### Inspect containers
 
-```bash
+``` bash
 docker compose ps
 ```
 
-View logs:
+### Follow logs
 
-```bash
+``` bash
 docker compose logs -f
 ```
 
-Stop the application:
+### Stop services
 
-```bash
+``` bash
 docker compose down
 ```
 
----
+Review the Compose file and required environment variables before
+starting the stack. Do not publish passwords or tokens from local
+environment files in logs, screenshots, or documentation.
 
-# ☸️ Kubernetes Deployment
+------------------------------------------------------------------------
 
-The current Kubernetes deployment uses separate resources for the application and database.
+## Local Kubernetes
 
-## 1. Create Namespace
+The repository includes Kubernetes manifests for local deployment.
+Validate each manifest against the current cluster and configuration
+before applying it.
 
-```bash
+Typical workflow (run from the repository root):
+
+``` bash
 kubectl apply -f k8s/namespace.yaml
-```
-
-## 2. Apply ConfigMap
-
-```bash
 kubectl apply -f k8s/configmap.yaml
 ```
 
-## 3. Apply Secrets
+Apply the appropriate Secret securely, then create database storage and
+database resources if those manifests are present and intended for your
+local environment:
 
-```bash
-kubectl apply -f k8s/auth-services/secret.yaml
-```
-
-## 4. Create Persistent Storage
-
-```bash
+``` bash
 kubectl apply -f k8s/mysql/pvc.yaml
-```
-
-## 5. Deploy MySQL
-
-```bash
 kubectl apply -f k8s/mysql/deployment.yaml
-```
-
-Create the MySQL service:
-
-```bash
 kubectl apply -f k8s/mysql/service.yaml
-```
-
-## 6. Deploy Authentication Service
-
-```bash
 kubectl apply -f k8s/auth-services/deployment.yaml
-```
-
-Create the service:
-
-```bash
 kubectl apply -f k8s/auth-services/service.yaml
-```
-
-## 7. Configure NGINX Ingress
-
-```bash
 kubectl apply -f k8s/ingress.yaml
 ```
 
----
+### Verify resources
 
-## Verify Deployment
-
-Check all resources:
-
-```bash
-kubectl get all -n devmart
-```
-
-Check pods:
-
-```bash
+``` bash
 kubectl get pods -n devmart
-```
-
-Check services:
-
-```bash
 kubectl get svc -n devmart
-```
-
-Check ingress:
-
-```bash
 kubectl get ingress -n devmart
+kubectl describe pod <pod-name> -n devmart
+kubectl logs <pod-name> -n devmart
 ```
 
----
+These commands assume the namespace and manifest paths match the current
+repository. Confirm names and paths before running them.
 
-# 🌐 Access the API
+A local URL such as `http://devmart.local:8080/docs` works only if local
+Ingress, port mapping, and host-file configuration are set up
+accordingly.
 
-## Docker Compose
+------------------------------------------------------------------------
 
-Swagger UI:
+## Configuration and Secrets
 
-```text
-http://localhost:8000/docs
-```
+The application may use environment variables such as:
 
-## Kubernetes
-
-Using the configured local ingress:
-
-```text
-http://devmart.local:8080/docs
-```
-
-The Swagger UI can be used to test the Authentication Service APIs.
-
----
-
-# ⚙️ Configuration
-
-Environment-specific configuration is managed through environment variables.
-
-Typical configuration includes:
-
-```env
+``` env
 DATABASE_URL=
 SECRET_KEY=
 ALGORITHM=
@@ -587,282 +398,278 @@ MYSQL_USER=
 MYSQL_PASSWORD=
 ```
 
-> ⚠️ Never commit real credentials, database passwords, JWT secrets, or other sensitive configuration to GitHub.
+Use a local `.env` file only for local development and ensure it is
+ignored by Git. Commit a sanitized `.env.example` if needed, containing
+placeholders only.
 
-Use Kubernetes Secrets or environment-specific configuration for sensitive values.
+**Never commit real credentials, database passwords, JWT secrets, AWS
+keys, registry credentials, or Kubernetes secret values.** For CI/CD,
+use Jenkins Credentials and AWS IAM roles or short-lived credentials
+where supported. For Kubernetes, use an appropriate secret-management
+solution and least-privilege access.
 
----
+------------------------------------------------------------------------
 
-# 🔄 Development Workflow
+## Jenkins CI/CD and DevSecOps Plan
 
-The current development workflow follows:
+Jenkins will be the **primary CI/CD orchestrator**. The `Jenkinsfile`
+will be stored at the repository root and will define the pipeline.
 
-```text
-Developer
-    │
-    ▼
-Git / GitHub
-    │
-    ▼
-Application Development
-    │
-    ▼
-Docker Build
-    │
-    ▼
-Docker Compose
-    │
-    ▼
-Local Kubernetes
-    │
-    ▼
-Testing & Validation
-```
+### Proposed stages
 
-The architecture is intentionally being developed incrementally so that each infrastructure layer can be understood and tested before moving to the next stage.
+1.  **Checkout** --- retrieve the selected Git revision.
+2.  **Change detection** --- identify whether frontend, backend, or
+    shared configuration changed (an optimization to add after the basic
+    pipeline works).
+3.  **Build and test** --- run the appropriate frontend and backend
+    checks.
+4.  **SonarQube analysis** --- analyze supported source code.
+5.  **Quality Gate** --- stop the pipeline if the configured gate fails.
+6.  **OWASP Dependency-Check** --- scan supported dependency manifests
+    and publish the report.
+7.  **Trivy filesystem/configuration scan** --- scan source and
+    supported configuration files.
+8.  **Docker build** --- build images for services that have validated
+    Dockerfiles.
+9.  **Trivy image scan** --- scan each built image before publishing.
+10. **Publish to ECR** --- push versioned images only when required
+    checks pass.
+11. **Update deployment configuration** --- update the intended image
+    tag in the GitOps/deployment configuration.
+12. **Verify delivery** --- Argo CD and/or deployment checks confirm the
+    desired state is healthy.
 
----
+### Security gate policy
 
-#  Documentation
+Define thresholds deliberately. For example, the pipeline can fail on a
+failed SonarQube Quality Gate or on vulnerabilities that meet an agreed
+severity threshold. Start with report-only scans if necessary to
+understand existing findings, then enforce blocking policies after
+reviewing and documenting the baseline.
 
-Additional project documentation is maintained under the `docs/` directory.
+Do not place secrets directly in the `Jenkinsfile`. Use Jenkins
+Credentials, scoped permissions, and secure agent configuration.
 
-Current documentation areas include:
+> Jenkins integration and these scans are planned until the pipeline has
+> been implemented and successfully run.
 
-* Docker Guide
-* Docker Compose Guide
-* Kubernetes Guide
-* API Documentation
-* Architecture Documentation
-* Troubleshooting Guide
+------------------------------------------------------------------------
 
----
+## AWS Deployment Plan
 
-#  Roadmap
+The intended AWS path is **Amazon ECR + Amazon EKS**, provisioned and
+managed with Terraform where practical.
 
-DevMart is being developed in multiple phases.
+### High-level sequence
 
-## ✅ Phase 1 — Project Foundation
+1.  Design the AWS network and access model: VPC, subnets, security
+    groups, IAM roles, and required endpoints.
+2.  Create ECR repositories for each deployable service.
+3.  Create an EKS cluster and configure worker capacity and access
+    controls.
+4.  Configure Jenkins access to AWS using least-privilege IAM
+    permissions or short-lived credentials.
+5.  Build and scan images, then publish immutable/versioned tags to ECR.
+6.  Update Kubernetes deployment configuration to reference the
+    published image tags.
+7.  Deploy through Argo CD after GitOps configuration is in place, or
+    use a temporary controlled deployment method during initial
+    validation.
+8.  Verify rollout health, application endpoints, logs, and rollback
+    procedures.
 
-* [x] Initialize project structure
-* [x] Set up Next.js frontend
-* [x] Set up FastAPI backend
-* [x] Configure MySQL
-* [x] Implement Authentication Service
-* [x] Implement JWT authentication
-* [x] Implement password hashing
-* [x] Dockerize Authentication Service
-* [x] Configure Docker Compose
-* [x] Create Kubernetes manifests
-* [x] Configure Kubernetes Namespace
-* [x] Configure ConfigMaps
-* [x] Configure Secrets
-* [x] Configure Persistent Volume Claim
-* [x] Deploy MySQL on Kubernetes
-* [x] Deploy Authentication Service on Kubernetes
-* [x] Configure NGINX Ingress
+### Database decision
 
----
+The existing local Kubernetes setup includes MySQL and persistent
+storage. For an AWS deployment, Amazon RDS for MySQL is the preferred
+production-oriented option to evaluate. Keeping MySQL inside EKS can be
+useful for learning, but requires deliberate storage, backup, recovery,
+upgrades, and availability planning.
 
-##  Phase 2 — Core Microservices
+### Operational and cost considerations
 
-* [ ] Product Service
-* [ ] Order Service
-* [ ] Inventory Service
-* [ ] API Gateway
-* [ ] Inter-service communication
+EKS, compute, load balancers, NAT gateways, ECR storage, and monitoring
+can incur charges. Use a small learning environment, set billing alerts,
+avoid exposing cluster endpoints unnecessarily, and delete disposable
+resources when finished. Check persistence and backups before destroying
+infrastructure.
 
----
+------------------------------------------------------------------------
 
-##  Phase 3 — Frontend Integration
+## GitOps with Argo CD
 
-* [ ] Connect Next.js frontend with backend APIs
-* [ ] Product management
-* [ ] Product listing
-* [ ] Shopping cart
-* [ ] Order management
-* [ ] User profile
-* [ ] Protected frontend routes
+Argo CD is planned as the continuous delivery controller for Kubernetes.
 
----
+**Intended responsibility split:**
 
-##  Phase 4 — CI/CD & Automation
+-   **Jenkins:** test code, run quality/security checks, build images,
+    publish to ECR, and update the intended deployment configuration.
+-   **Git:** store the desired Kubernetes configuration and image
+    version.
+-   **Argo CD:** observe Git and synchronize the desired configuration
+    to EKS.
+-   **EKS:** run the application workloads.
 
-* [ ] GitHub Actions
-* [ ] Automated testing
-* [ ] Automated Docker image build
-* [ ] Push images to container registry
-* [ ] Automated Kubernetes deployment
-* [ ] Environment-based deployments
-* [ ] Health checks
+Avoid having Jenkins and Argo CD independently manage the same
+deployment in competing ways. Once Argo CD owns delivery, Jenkins should
+generally update Git rather than directly applying the same application
+manifests to the cluster.
 
----
+------------------------------------------------------------------------
 
-##  Phase 5 — AWS Cloud Deployment
+## Monitoring and Observability
 
-* [ ] AWS infrastructure
-* [ ] Amazon ECR
-* [ ] Amazon EKS
-* [ ] Load Balancer
-* [ ] HTTPS / TLS
-* [ ] Domain configuration
+The planned monitoring stack is:
 
----
+  Tool                 Intended purpose
+  -------------------- ---------------------------------------------------
+  Prometheus           Scrape and store metrics
+  Grafana              Dashboards and visualization
+  Node Exporter        Host/node metrics where applicable
+  kube-state-metrics   Kubernetes object-state metrics
+  Alertmanager         Route alerts from Prometheus
+  AWS CloudWatch       AWS service metrics and configured log collection
 
-##  Phase 6 — Monitoring & Observability
+### Planned implementation sequence
 
-* [ ] Prometheus
-* [ ] Grafana
-* [ ] Application metrics
-* [ ] Kubernetes metrics
-* [ ] Log collection
-* [ ] Alerting
+1.  Deploy the application to a working Kubernetes environment.
+2.  Install a compatible monitoring stack, for example through Helm.
+3.  Confirm Prometheus targets and metric availability.
+4.  Configure Grafana dashboards for nodes, pods, workloads, and
+    application metrics.
+5.  Add alerts for unavailable workloads and selected resource
+    thresholds.
+6.  Configure log collection and retention appropriate to the
+    environment.
+7.  Document dashboards, alerts, and test evidence.
 
----
+Monitoring is not complete until the data sources, dashboards, and
+alerts have been validated in the target environment.
 
-##  Phase 7 — Production Readiness
+------------------------------------------------------------------------
 
-* [ ] Horizontal Pod Autoscaling
-* [ ] CPU / memory resource requests
-* [ ] CPU / memory limits
-* [ ] Rolling updates
-* [ ] Liveness probes
-* [ ] Readiness probes
-* [ ] Security hardening
-* [ ] Production deployment
+## Security Principles
 
----
+-   Keep real `.env` files and credentials out of Git.
+-   Use least-privilege IAM and Kubernetes RBAC.
+-   Use TLS for public endpoints when deployed.
+-   Scan dependencies, filesystem/configuration, and container images.
+-   Pin and version container images; avoid relying on mutable tags for
+    releases.
+-   Configure resource requests, limits, and health probes for
+    workloads.
+-   Restrict network access and cluster/API exposure.
+-   Review Kubernetes Secrets handling; base64 encoding alone is not
+    encryption.
+-   Document scan findings and the chosen remediation or exception
+    policy.
+-   Back up persistent data before migrations or destructive
+    infrastructure operations.
 
-# 🎯 Project Goals
+------------------------------------------------------------------------
 
-The main goal of DevMart is to build practical experience with technologies commonly used in modern DevOps and cloud-native environments.
+## Roadmap
 
-The project focuses on:
+### Phase 1 --- Existing application foundation
 
-* Microservices architecture
-* REST API development
-* Authentication & authorization
-* Containerization
-* Docker networking
-* Kubernetes orchestration
-* Kubernetes networking
-* Persistent storage
-* Configuration management
-* Secrets management
-* CI/CD automation
-* AWS cloud infrastructure
-* Monitoring & observability
-* Production deployment practices
+-   [x] Repository structure and GitHub version control
+-   [x] FastAPI Authentication Service foundation
+-   [x] JWT authentication and password hashing
+-   [x] MySQL integration for authentication
+-   [x] Docker and Docker Compose foundation
+-   [x] Local Kubernetes manifest foundation
+-   [ ] Validate all current manifests and document reproducible local
+    startup
 
----
+### Phase 2 --- Application integration
 
-# 🔮 Future Architecture
+-   [ ] Complete and verify product/order service functionality
+-   [ ] Connect the Next.js frontend to backend APIs
+-   [ ] Implement and test core shopping and order flows
+-   [ ] Add repeatable automated tests
 
-Once the planned services are implemented, the target architecture will evolve toward:
+### Phase 3 --- Jenkins CI
 
-```text
-                         ┌─────────────────┐
-                         │      Users      │
-                         └────────┬────────┘
-                                  │
-                                  ▼
-                         ┌─────────────────┐
-                         │   Frontend      │
-                         │    Next.js      │
-                         └────────┬────────┘
-                                  │
-                                  ▼
-                         ┌─────────────────┐
-                         │   API Gateway   │
-                         └────────┬────────┘
-                                  │
-              ┌───────────────────┼───────────────────┐
-              │                   │                   │
-              ▼                   ▼                   ▼
-       ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-       │    Auth     │     │   Product   │     │    Order    │
-       │   Service   │     │   Service   │     │   Service   │
-       └──────┬──────┘     └──────┬──────┘     └──────┬──────┘
-              │                   │                   │
-              ▼                   ▼                   ▼
-         ┌─────────┐         ┌─────────┐         ┌─────────┐
-         │  MySQL  │         │  MySQL  │         │  MySQL  │
-         └─────────┘         └─────────┘         └─────────┘
+-   [ ] Configure Jenkins and repository trigger
+-   [ ] Add root-level `Jenkinsfile`
+-   [ ] Automate frontend/backend build and tests
+-   [ ] Publish build and test reports
 
-                         Kubernetes Cluster
-                                  │
-                  ┌───────────────┼───────────────┐
-                  │               │               │
-                  ▼               ▼               ▼
-               CI/CD          Monitoring       Logging
-             GitHub Actions   Prometheus       Future
-                              Grafana
-```
+### Phase 4 --- DevSecOps controls
 
-This architecture will be implemented incrementally as the project progresses.
+-   [ ] Integrate SonarQube analysis and Quality Gate
+-   [ ] Integrate OWASP Dependency-Check
+-   [ ] Integrate Trivy filesystem/configuration scanning
+-   [ ] Integrate Docker image scanning with Trivy
+-   [ ] Define and document failure thresholds
+-   [ ] Secure Jenkins credentials and permissions
 
----
+### Phase 5 --- AWS and container registry
 
-# 🧪 Testing & Validation
+-   [ ] Provision required AWS infrastructure with Terraform
+-   [ ] Configure Amazon ECR repositories and image publishing
+-   [ ] Provision Amazon EKS
+-   [ ] Validate AWS-compatible manifests, storage, networking, and
+    secrets
+-   [ ] Configure ingress/load balancing and HTTPS
+-   [ ] Decide and document the database deployment approach
 
-The current Authentication Service can be tested using:
+### Phase 6 --- GitOps delivery
 
-* Swagger UI
-* Postman
-* Docker Compose
-* Kubernetes
+-   [ ] Configure Argo CD
+-   [ ] Store deployment configuration in Git
+-   [ ] Automate image-tag/configuration updates
+-   [ ] Validate synchronization, health checks, and rollback
 
-Swagger provides an interactive interface for testing available API endpoints.
+### Phase 7 --- Monitoring and production readiness
 
-For Kubernetes troubleshooting, useful commands include:
+-   [ ] Deploy Prometheus and Grafana
+-   [ ] Add Kubernetes and application metrics
+-   [ ] Configure dashboards and alerts
+-   [ ] Configure log collection
+-   [ ] Add resource requests/limits and health probes
+-   [ ] Review autoscaling, backup/recovery, access controls, and cost
+-   [ ] Capture final test evidence and update documentation
 
-```bash
+------------------------------------------------------------------------
+
+## Testing and Troubleshooting
+
+Useful commands for local validation:
+
+``` bash
+docker compose ps
+docker compose logs -f
 kubectl get pods -n devmart
 kubectl describe pod <pod-name> -n devmart
 kubectl logs <pod-name> -n devmart
 kubectl get svc -n devmart
 kubectl get ingress -n devmart
+git status
+git log -5 --oneline
 ```
 
----
+Before reporting a feature as complete, verify it in the actual
+environment and record the relevant output or screenshot. Keep README
+status labels synchronized with the implementation.
 
-# 🔒 Security Considerations
+------------------------------------------------------------------------
 
-The current implementation includes:
+## Author
 
-* bcrypt password hashing
-* JWT-based authentication
-* Bearer token validation
-* Kubernetes Secrets
-* Environment-based configuration
+**Md. Tahsinul Hoque Siddiki**\
+Computer Science Graduate \| DevOps & Cloud Enthusiast
 
-Future security improvements will include:
+-   GitHub: [tahsinulhoque](https://github.com/tahsinulhoque)
+-   LinkedIn:
+    [tahsinulhoque](https://www.linkedin.com/in/tahsinulhoque/)
+-   Portfolio:
+    [tahsinulhoque.netlify.app](https://tahsinulhoque.netlify.app/)
 
-* HTTPS/TLS
-* Secure secret management
-* Container image scanning
-* Kubernetes security hardening
-* Least-privilege access
-* Network policies
-* Production-grade authentication practices
+------------------------------------------------------------------------
 
----
+> DevMart is an actively evolving portfolio project. The AWS, Jenkins,
+> DevSecOps, GitOps, and monitoring components will be marked as
+> implemented only after they are configured, tested, and documented.
 
-# 👨‍💻 Author
-
-**Md. Tahsinul Hoque Siddiki**
-
-Computer Science Graduate | DevOps & Cloud Enthusiast
-
-* GitHub: https://github.com/tahsinulhoque
-* LinkedIn: https://www.linkedin.com/in/tahsinulhoque/
-* Portfolio: https://tahsinulhoque.netlify.app/
-
----
-
->  **DevMart is an actively evolving project.**
-> The architecture and roadmap will expand as additional microservices, automation, cloud infrastructure, and observability components are implemented.
-
----
-
-⭐ **If you find this project useful, feel free to star the repository.**
+⭐ If you find this project useful, feel free to star the repository.
