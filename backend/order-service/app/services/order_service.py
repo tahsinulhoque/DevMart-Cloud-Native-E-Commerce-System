@@ -1,3 +1,4 @@
+import os
 from decimal import Decimal
 
 import httpx
@@ -8,7 +9,10 @@ from app.models.order import Order, OrderItem
 from app.schemas.order import OrderCreate
 
 
-PRODUCT_SERVICE_URL = "http://127.0.0.1:8001"
+PRODUCT_SERVICE_URL = os.getenv(
+    "PRODUCT_SERVICE_URL",
+    "http://127.0.0.1:8001"
+)
 
 
 class OrderService:
@@ -35,7 +39,6 @@ class OrderService:
                     product = response.json()
 
                     unit_price = Decimal(str(product["price"]))
-
                     total_amount += unit_price * item.quantity
 
                     order_items.append(
@@ -59,6 +62,12 @@ class OrderService:
             raise HTTPException(
                 status_code=502,
                 detail="Product Service returned an error"
+            )
+
+        except (KeyError, ValueError, TypeError):
+            raise HTTPException(
+                status_code=502,
+                detail="Invalid product data received"
             )
 
         new_order = Order(
@@ -100,8 +109,16 @@ class OrderService:
         )
 
     @staticmethod
-    def update_order_status(db: Session, order_id: int, status: str):
-        order = db.query(Order).filter(Order.id == order_id).first()
+    def update_order_status(
+        db: Session,
+        order_id: int,
+        status: str
+    ):
+        order = (
+            db.query(Order)
+            .filter(Order.id == order_id)
+            .first()
+        )
 
         if not order:
             return None
@@ -111,6 +128,7 @@ class OrderService:
         try:
             db.commit()
             db.refresh(order)
+
             return OrderService.get_order_by_id(db, order_id)
 
         except Exception:
@@ -122,7 +140,11 @@ class OrderService:
 
     @staticmethod
     def delete_order(db: Session, order_id: int):
-        order = db.query(Order).filter(Order.id == order_id).first()
+        order = (
+            db.query(Order)
+            .filter(Order.id == order_id)
+            .first()
+        )
 
         if not order:
             return None
@@ -130,6 +152,7 @@ class OrderService:
         try:
             db.delete(order)
             db.commit()
+
             return order
 
         except Exception:
