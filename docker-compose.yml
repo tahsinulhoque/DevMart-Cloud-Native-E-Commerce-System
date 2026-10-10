@@ -1,70 +1,69 @@
 services:
-
   mysql:
     image: mysql:8.0
-
     container_name: devmart-mysql
-
     restart: always
-
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${AUTH_MYSQL_DATABASE}
-
     ports:
       - "3306:3306"
-
     volumes:
       - mysql_data:/var/lib/mysql
-
 
   auth-service:
     build:
       context: ./backend/auth-service
-
     container_name: auth-service
-
     restart: always
-
     depends_on:
       - mysql
-
     environment:
       MYSQL_HOST: ${AUTH_MYSQL_HOST}
       MYSQL_PORT: ${AUTH_MYSQL_PORT}
       MYSQL_DATABASE: ${AUTH_MYSQL_DATABASE}
       MYSQL_USER: ${AUTH_MYSQL_USER}
       MYSQL_PASSWORD: ${AUTH_MYSQL_PASSWORD}
-
       SECRET_KEY: ${SECRET_KEY}
       ALGORITHM: ${ALGORITHM}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES}
-
     ports:
       - "8000:8000"
-
 
   product-service:
     build:
       context: ./backend/product-service
-
     container_name: product-service
-
     restart: always
-
     depends_on:
       - mysql
-
     environment:
       MYSQL_HOST: ${PRODUCT_MYSQL_HOST}
       MYSQL_PORT: ${PRODUCT_MYSQL_PORT}
       MYSQL_DATABASE: ${PRODUCT_MYSQL_DATABASE}
       MYSQL_USER: ${PRODUCT_MYSQL_USER}
       MYSQL_PASSWORD: ${PRODUCT_MYSQL_PASSWORD}
-
+      PRODUCT_SERVICE_URL: http://product-service:8001
     ports:
       - "8001:8001"
 
+  order-service:
+    build:
+      context: ./backend/order-service
+    container_name: order-service
+    restart: always
+    depends_on:
+      - mysql
+      - product-service
+    environment:
+      MYSQL_HOST: ${ORDER_MYSQL_HOST}
+      MYSQL_PORT: ${ORDER_MYSQL_PORT}
+      MYSQL_DATABASE: ${ORDER_MYSQL_DATABASE}
+      MYSQL_USER: ${ORDER_MYSQL_USER}
+      MYSQL_PASSWORD: ${ORDER_MYSQL_PASSWORD}
+      PRODUCT_SERVICE_URL: http://product-service:8001
+    ports:
+      - "8002:8002"
 
 volumes:
   mysql_data:
