@@ -35,6 +35,18 @@ pipeline {
             }
         }
 
+        stage('Frontend Build') {
+            steps {
+                sh '''
+                    docker run --rm \
+                        -v "$WORKSPACE/frontend:/app" \
+                        -w /app \
+                        node:22-alpine \
+                        sh -c "npm ci && npm run build"
+                '''
+            }
+        }
+
         stage('Pipeline Complete') {
             steps {
                 echo 'DevMart CI validation completed successfully.'
