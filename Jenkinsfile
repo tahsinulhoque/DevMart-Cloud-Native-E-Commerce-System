@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -20,6 +19,7 @@ pipeline {
                     set -eu
 
                     test -f frontend/package.json
+                    test -f frontend/package-lock.json
                     test -f backend/auth-service/requirements.txt
                     test -f backend/product-service/requirements.txt
                     test -f backend/order-service/requirements.txt
@@ -39,8 +39,8 @@ pipeline {
             steps {
                 sh '''
                     docker run --rm \
-                        -v "$WORKSPACE/frontend:/app" \
-                        -w /app \
+                        --volumes-from devmart-jenkins \
+                        -w "$WORKSPACE/frontend" \
                         node:22-alpine \
                         sh -c "npm ci && npm run build"
                 '''
