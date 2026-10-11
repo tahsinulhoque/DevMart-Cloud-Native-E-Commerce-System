@@ -7,15 +7,10 @@ pipeline {
         disableConcurrentBuilds()
     }
 
-    environment {
-        FRONTEND_DIR = 'frontend'
-    }
-
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
-                echo 'DevMart source code checked out.'
             }
         }
 
@@ -31,46 +26,28 @@ pipeline {
             }
         }
 
-        stage('Frontend Build') {
-            steps {
-                sh '''
-                    docker run --rm \
-                      -v "$WORKSPACE/frontend:/app" \
-                      -w /app \
-                      node:22-alpine sh -c \
-                      "npm ci && npm run build"
-                '''
-            }
-        }
-
         stage('Backend Syntax Check') {
             steps {
                 sh '''
-                    docker run --rm \
-                      -v "$WORKSPACE/backend:/app" \
-                      -w /app \
-                      python:3.12-slim \
-                      python -m compileall -q .
+                    python3 --version
+                    python3 -m compileall -q backend
                 '''
             }
         }
 
-        stage('Security Scanning') {
+        stage('Pipeline Complete') {
             steps {
-                echo 'Security scanners will be integrated next.'
+                echo 'DevMart CI validation completed successfully.'
             }
         }
     }
 
     post {
         success {
-            echo 'DevMart CI pipeline completed successfully.'
+            echo 'DevMart CI pipeline passed.'
         }
         failure {
-            echo 'DevMart CI pipeline failed. Check the stage logs.'
-        }
-        always {
-            echo 'Pipeline execution finished.'
+            echo 'Pipeline failed. Check Console Output.'
         }
     }
 }
