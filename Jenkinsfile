@@ -54,9 +54,27 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    script {
+                        def scannerHome = tool 'SonarScanner'
+
+                        sh """
+                            "\${scannerHome}/bin/sonar-scanner" \
+                                -Dsonar.projectKey=DevMart \
+                                -Dsonar.projectName=DevMart \
+                                -Dsonar.sources=frontend,backend \
+                                -Dsonar.sourceEncoding=UTF-8
+                        """
+                    }
+                }
+            }
+        }
+
         stage('Pipeline Complete') {
             steps {
-                echo 'DevMart CI validation completed successfully.'
+                echo 'DevMart CI and SonarQube analysis completed successfully.'
             }
         }
     }
