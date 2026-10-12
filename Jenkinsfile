@@ -45,11 +45,21 @@ pipeline {
         stage('Frontend Build') {
             steps {
                 sh '''
+                    set -eu
+
                     docker run --rm \
                         --volumes-from devmart-jenkins \
                         -w "$WORKSPACE/frontend" \
                         node:22-alpine \
-                        sh -c "npm ci && npm run build"
+                        sh -c '
+                            npm ci \
+                                --fetch-retries=5 \
+                                --fetch-retry-mintimeout=20000 \
+                                --fetch-retry-maxtimeout=120000 \
+                                --fetch-timeout=600000
+
+                            npm run build
+                        '
                 '''
             }
         }
