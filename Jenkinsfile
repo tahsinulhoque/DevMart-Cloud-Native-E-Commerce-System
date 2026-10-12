@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -31,7 +32,13 @@ pipeline {
 
         stage('Backend Syntax Check') {
             steps {
-                echo 'Python syntax check deferred until a Python-capable build agent is configured.'
+                sh '''
+                    docker run --rm \
+                        --volumes-from devmart-jenkins \
+                        -w "$WORKSPACE" \
+                        python:3.12-slim \
+                        python -c "import ast,pathlib,sys; files=list(pathlib.Path('backend').rglob('*.py')); print(f'Checking {len(files)} Python files'); sys.exit('No Python files found') if not files else None; [ast.parse(p.read_text(encoding='utf-8'), filename=str(p)) for p in files]; print('Python syntax check passed')"
+                '''
             }
         }
 
