@@ -1,10 +1,10 @@
-
 pipeline {
     agent any
 
     options {
         timestamps()
         disableConcurrentBuilds()
+        timeout(time: 30, unit: 'MINUTES')
     }
 
     stages {
@@ -44,23 +44,38 @@ pipeline {
 
         stage('Frontend Build') {
             steps {
-                sh '''
-                    set -eu
+                // Network unstable hole 1 bar fail korle auto retry korbe.
+                // npm cache volume thakay retry-te already download howa package abar download hobe na.
+                retry(3) {
+                    sh '''
+                        set -eu
 
-                    docker run --rm \
-                        --volumes-from devmart-jenkins \
-                        -w "$WORKSPACE/frontend" \
-                        node:22-alpine \
-                        sh -c '
-                            npm ci \
-                                --fetch-retries=5 \
-                                --fetch-retry-mintimeout=20000 \
-                                --fetch-retry-maxtimeout=120000 \
-                                --fetch-timeout=600000
+                        docker volume create devmart-npm-cache >/dev/null
 
-                            npm run build
-                        '
-                '''
+                        docker run --rm \
+                            --dns 8.8.8.8 --dns 1.1.1.1 \
+                            -e NODE_OPTIONS=--dns-result-order=ipv4first \
+                            --volumes-from devmart-jenkins \
+                            -v devmart-npm-cache:/root/.npm \
+                            -w "$WORKSPACE/frontend" \
+                            node:22-alpine \
+                            sh -c '
+                                set -eu
+
+                                npm ci \
+                                    --prefer-offline \
+                                    --no-audit \
+                                    --no-fund \
+                                    --maxsockets=2 \
+                                    --fetch-retries=5 \
+                                    --fetch-retry-mintimeout=20000 \
+                                    --fetch-retry-maxtimeout=120000 \
+                                    --fetch-timeout=120000
+
+                                npm run build
+                            '
+                    '''
+                }
             }
         }
 
@@ -71,10 +86,11 @@ pipeline {
                         def scannerHome = tool 'SonarScanner'
 
                         sh """
-                            "\${scannerHome}/bin/sonar-scanner" \
-                                -Dsonar.projectKey=DevMart \
-                                -Dsonar.projectName=DevMart \
-                                -Dsonar.sources=frontend,backend \
+                            "${scannerHome}/bin/sonar-scanner" \\
+                                -Dsonar.projectKey=DevMart \\
+                                -Dsonar.projectName=DevMart \\
+                                -Dsonar.sources=frontend,backend \\
+                                -Dsonar.exclusions=**/node_modules/**,**/.next/**,**/__pycache__/** \\
                                 -Dsonar.sourceEncoding=UTF-8
                         """
                     }
